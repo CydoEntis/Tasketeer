@@ -26,7 +26,11 @@ taskRoutes.post(
 	taskController.postCreateTask
 );
 
-taskRoutes.post('/assign-task', taskController.postAssignTask);
+taskRoutes.post('/assign-task', 
+[
+	body('dueDate', "A Due date must be selected").notEmpty().isDate()
+],
+taskController.postAssignTask);
 taskRoutes.post('/task/set-active', taskController.postActiveTask);
 
 taskRoutes.post('/task/submit-for-review', taskController.postTaskForReview);

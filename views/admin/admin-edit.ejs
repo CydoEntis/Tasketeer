@@ -105,4 +105,10 @@
             </div>
         </section>
     </main>
+    <script>
+      const dueDate = document.querySelector('#due');
+      const date = new Date();
+      dueDate.value = date.getFullYear().toString() + '-' + (date.getMonth() + 1).toString().padStart(2, 0) + 
+    '-' + date.getDate().toString().padStart(2, 0);
+    </script>
 <%- include("../includes/footer.ejs")%>

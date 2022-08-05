@@ -1,6 +1,11 @@
 const lineChart = document.getElementById('lineChart');
 const pieChart = document.getElementById('pieChart');
 
+const dueDate = document.querySelector('#today');
+const date = new Date();
+dueDate.value = date.getFullYear().toString() + '-' + (date.getMonth() + 1).toString().padStart(2, 0) + 
+'-' + date.getDate().toString().padStart(2, 0);
+
 const today = new Date();
 let day = today.getDate();
 let month = today.getMonth() + 1;

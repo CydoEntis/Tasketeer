@@ -6,3 +6,4 @@ menuBtn.addEventListener("click", () => {
   menuBtn.classList.toggle('is-active');
   mobileMenuBtn.classList.toggle('is-active');
 })
+

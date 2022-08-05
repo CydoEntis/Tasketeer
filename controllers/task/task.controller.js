@@ -31,14 +31,14 @@ async function getIndex(req, res, next) {
 		const createdAtDate = formatDate(task.createdAt);
 		const dueDate = formatDate(task.dueDate);
 		const shortDesc = shorten(task.description);
-		
+
 		let formattedTask = {
 			...task,
 			createdAtDate,
 			shortDesc,
-			dueDate
+			dueDate,
 		};
-		
+
 		if (task.status === 'pending') {
 			pendingTasks.push(formattedTask);
 		} else if (task.status === 'active') {
@@ -49,9 +49,9 @@ async function getIndex(req, res, next) {
 			inReviewTasks.push(formattedTask);
 		} else if (task.status === 'complete') {
 			completedTasks.push(formattedTask);
-		} 
-		
-		if(count <= 4) {
+		}
+
+		if (count <= 4) {
 			formattedTasks.push(formattedTask);
 		}
 		count++;
@@ -191,7 +191,6 @@ async function getActiveTasks(req, res, next) {
 			})
 			.skip((page - 1) * TASKS_PER_PAGE)
 			.limit(TASKS_PER_PAGE);
-
 
 		for (let task of tasks) {
 			const formattedDate = formatDate(task.createdAt);
@@ -414,7 +413,7 @@ async function getTask(req, res, next) {
 	const dueDate = formatDate(task.dueDate);
 
 	const images = [];
-	for(let imageId of task.imageIds) {
+	for (let imageId of task.imageIds) {
 		const foundImage = await Image.findById(imageId);
 		images.push(foundImage);
 	}
@@ -432,7 +431,7 @@ async function getTask(req, res, next) {
 		const formattedComment = {
 			...comment,
 			createdAt: commentDate,
-			dueDate: dueDate
+			dueDate: dueDate,
 		};
 		formattedComments.push(formattedComment);
 	}
@@ -465,15 +464,13 @@ async function postCreateTask(req, res, next) {
 			const newImage = new Image({
 				name: image.filename,
 				path: image.path,
-			})
+			});
 			imageIds.push(newImage);
-			await newImage.save()
-		} 
+			await newImage.save();
+		}
 	} catch (e) {
 		console.log(e);
 	}
-
-
 
 	const errors = validationResult(req);
 
@@ -531,9 +528,8 @@ async function postAssignTask(req, res, next) {
 		task.dueDate = new Date(dueDate).toISOString();
 
 		await task.save();
-	
-		res.redirect('/admin');
 
+		res.redirect('/admin');
 	} catch (e) {
 		console.log(e);
 	}
@@ -551,7 +547,6 @@ async function getUserEditTask(req, res, next) {
 			...task,
 			createdAt: formattedDate,
 		};
-
 
 		res.render('tasks/edit-task', {
 			task: foundTask,
@@ -607,22 +602,22 @@ async function postUserEditTask(req, res, next) {
 // TODO: Update to delete comments when task is deleted.
 async function postDeleteTask(req, res, next) {
 	const taskId = req.body.id;
-	
+
 	try {
 		const task = await Task.findById(taskId);
-		for(let imageId of task.imageIds) {
+		for (let imageId of task.imageIds) {
 			const foundImage = await Image.findById(imageId);
 			await Image.deleteOne({ _id: foundImage._id });
 			fs.unlink(foundImage.path, (err) => {
-				if(err) throw err;
+				if (err) throw err;
 				console.log('File Deleted');
-			})
+			});
 		}
-		await Comment.deleteMany({taskId: taskId})
+		await Comment.deleteMany({ taskId: taskId });
 		await Task.deleteOne({ _id: taskId });
-		
+
 		res.redirect('/tasks');
-	} catch(e) {
+	} catch (e) {
 		console.log(e);
 	}
 }
@@ -670,16 +665,15 @@ async function postDeleteImage(req, res, next) {
 	console.log(image);
 
 	fs.unlink(image.path, (err) => {
-		if(err) throw err;
+		if (err) throw err;
 		console.log('File Deleted');
-	})
-
+	});
 
 	Image.deleteOne({ _id: imageId })
-	.then(() => {
-		res.redirect('/task/' + taskId);
-	})
-	.catch((err) => console.error(err));
+		.then(() => {
+			res.redirect('/task/' + taskId);
+		})
+		.catch((err) => console.error(err));
 }
 
 module.exports = {
@@ -701,5 +695,5 @@ module.exports = {
 	postDeleteTask,
 	postCompleteTask,
 	postTaskForReview,
-	postDeleteImage
+	postDeleteImage,
 };
