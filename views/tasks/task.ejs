@@ -1,0 +1,102 @@
+<%- include("../includes/header.ejs")%>
+</head>
+
+<body>
+    <%- include("../includes/side-navigation.ejs")%>
+    <main class="content">
+        <section>
+            <h2 class="page__title"><a class="btn btn-back" href="/tasks"><i class='bx bx-arrow-back'></i></a> View Task</h2>
+            <button class="hamburger">
+                <div class="bar"></div>
+            </button>
+            <div class="task">
+                <% if(task._doc.createdBy.userId.toString() === user._id.toString()) { %>
+                    <a class="btn-mobile" href="/edit-task/<%= task._doc._id %>"><i class='bx bx-edit'></i></a>
+                    <a class="btn btn-desktop" href="/edit-task/<%= task._doc._id %>">Edit Task</a>
+                <% } %>
+                <div class="task__header">
+                    <h2 class="task__title"><%= task._doc.title %></h2>
+                    <div class="status--<%= task._doc.status %>">
+                        <p class="time--<%= task._doc.status %>">Due <i class='icon--<%= task._doc.status %> bx bxs-calendar'></i> <%= task.dueDate %></p>
+                    </div>
+                </div>
+                <div class="task__priority">
+                    <span class="badge badge--<%= task._doc.priority %>"><%= task._doc.priority %></span>
+                </div>
+                <h3 class="task__submission--info">Created on: <%= task.createdAt %></h3>
+                <p class="task__desc"><%= task._doc.description %></p>
+                <div class="task__images">
+                    
+                    <% if(images.length > 0) { %>
+                        <% for(let image of images) {%>
+                            <div class="task__image">
+                                <% if(task._doc.createdBy.userId.toString() === user._id.toString()) {%>
+                                    <form action="/delete-image" method="POST">
+                                        <input type="hidden" value="<%= task._doc._id %>"name="id">
+                                        <input type="hidden" value="<%= image._doc._id %>"name="imageId">
+                                        <input type="hidden" value="<%= csrfToken %>"name="_csrf">
+                                        <button type=submit" class="comment--delete"><i class='bx bx-trash'></i></button>
+                                    </form>
+                                <% } %>
+                                <img src="/<%= image.path %>" alt="">
+                            </div>
+                        <% } %>
+                    <% } %>
+                </div>
+                <div class="form__control">
+                    <% if(isAuthenticated) { %>
+                        <% if(task._doc.createdBy.userId.toString() === user._id.toString()) { %>
+                                <% if(task._doc.status !== "reviewing" && task._doc.status !== 'pending') { %>
+                                    <form action="/task/submit-for-review" method="POST">
+                                        <input type="hidden" value="<%= task._doc._id %>" name="id">
+                                        <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+                                        <button class="btn" type="submit">Submit For Review</button>
+                                    </form>
+                                <% } %>
+                        <% } %>
+                    <% } %>
+                </div>
+                <% if(task._doc.status !== 'pending' ) { %>
+                    <div class="form__control">
+                        <form action="/post-comment" method="POST">
+                            <label for="comment">Leave A Comment</label>
+                            <textarea class="input__comment" type="text" name="comment"></textarea>
+                            <input type="hidden" value="<%= task._doc._id %>" name="id">
+                            <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+                            <button class="btn" type="submit">Post Comment</button>
+                        </form>
+                    </div>
+                    <div class="comments">
+                        <% if(comments.length > 0) { %>
+                            <% for(let comment of comments) { %>
+                                <% if(comment._doc.createdBy.userId.toString() === user._id.toString()) { %>
+                                    <div class="comment">
+                                        <h3 class="comment-header"><%= comment._doc.createdBy.username %><span class="current-user"> (You)</span></h3>
+                                        <p class="comment-body"><%= comment._doc.comment %></p>
+                                        <p class="comment-date"><%= comment.createdAt %></p>
+                                        <form action="/comment-delete" method="POST">
+                                            <input type="hidden" value="<%= comment._doc._id %>"name="commentId">
+                                            <input type="hidden" value="<%= comment._doc.taskId %>"name="taskId">
+                                            <input type="hidden" value="<%= csrfToken %>"name="_csrf">
+                                            <button type=submit" class="comment--delete"><i class='bx bx-trash'></i></button>
+                                        </form>
+                                        
+                                    </div>
+                                <% } else { %>
+                                    
+                                    <div class="comment comment--right">
+                                        <h3 class="comment-header"><%= comment._doc.createdBy.username %></h3>
+                                        <p class="comment-body"><%= comment._doc.comment %></p>
+                                        <p class="comment-date"><%= comment.createdAt %></p>
+                                    </div>
+                                <% } %>
+                            <% } %>    
+                        <% } else { %>
+                            <p>No comments yet...</p>
+                        <% } %>
+                <% } %>
+                </div>
+            </div>
+        </section>
+    </main>
+    <%- include("../includes/footer.ejs")%>

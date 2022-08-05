@@ -1,0 +1,309 @@
+<%- include("../includes/header.ejs")%>
+    <title><%= title %></title>
+</head>
+
+<body>
+    <%- include("../includes/side-navigation.ejs")%>
+    <main class="content">
+        <div class="page__header">
+            <h1 class="page__title">Tasks</h1>
+            <button class="hamburger">
+                <div class="bar"></div>
+            </button>
+            <div class="controls">
+                <form action="/search">
+                    <label for="search"><i class='bx bx-search'></i></label>
+                    <input type="text" name="search">
+                </form>
+                <a href="/tasks/create-task" class="btn">Create Task</a>
+            </div>
+        </div>
+        <% if(tasks.allTasks.length > 0) { %>
+            <div class="task__categories">
+                <div class="task__category category__body--all">
+                    <div class="task__category--header">
+                        <h2 class="task__category--title"><i class='icon--all bx bx-task' ></i> All</h2>
+                    </div>
+                    <div class="task__category--body">
+                        <% if(tasks.allTasks.length > 0) {%>
+                            <% for(let task of tasks.allTasks) { %>
+                                <a class="card__link" href="/task/<%= task._doc._id %>">
+                                    <div class="card">
+                                        <div class="card__due-date status--<%= task._doc.status %>">
+                                            <p class="time--<%= task._doc.status %>">Due</p>
+                                            <i class='icon--<%= task._doc.status %> bx bxs-calendar'></i>
+                                            <p class="time--<%= task._doc.status %>"><%= task.dueDate %></p>
+                                        </div>
+                                        <div class="card__details">
+                                            <div class="card__header">
+                                                <div class="task__header--section">
+                                                    <h3 class="card__title"><%= task._doc.title %></h3>
+                                                    <div class="task__header--section">
+                                                        <span class="badge badge--<%= task._doc.priority %>"><%= task._doc.priority %></span>
+                                                    </div>
+                                                </div>
+                                                <!-- <div class="card__options"><i class='bx bx-dots-horizontal-rounded' ></i></div> -->
+                                            </div>
+                                            <div class="card__body">
+                                                <div class="card__grouping">
+                                                    <div class="card__comments">
+                                                        <p class="task__comment--count"><%= task._doc.commentCount %></p>
+                                                        <i class='task__comment--icon bx bx-comment'></i>
+                                                    </div>
+                                                    <p class="card__date">Created: <%= task.createdAtDate %></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            <% } %>
+                            <a href="/tasks/all" class="tasks__view tasks__view--all">View All</a>
+                        <% } else { %>
+                            <div class="tasks__not-found--small">
+                                <i class='icon__error--small bx bx-error-circle'></i>
+                                <h3 class="not-found__message--small">You don't have any tasks yet!</h3>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+                <div class="task__category category__body--pending">
+                    <div class="task__category--header">
+                        <h2 class="task__category--title"><i class='icon--pending bx bx-loader-circle' ></i> Pending</h2>
+                    </div>
+                    <div class="task__category--body">
+                        <% if(tasks.pendingTasks.length > 0) { %>
+                            <% for(let task of tasks.pendingTasks) { %>
+                                <a class="card__link" href="/task/<%= task._doc._id %>">
+                                    <div class="card">
+                                        <div class="card__due-date status--<%= task._doc.status %>">
+                                            <p class="time--<%= task._doc.status %>">Due</p>
+                                            <i class='icon--<%= task._doc.status %> bx bxs-calendar'></i>
+                                            <p class="time--<%= task._doc.status %>"><%= task.dueDate %></p>
+                                        </div>
+                                        <div class="card__details">
+                                            <div class="card__header">
+                                                <div class="task__header--section">
+                                                    <h3 class="card__title"><%= task._doc.title %></h3>
+                                                    <div class="task__header--section">
+                                                        <span class="badge badge--<%= task._doc.priority %>"><%= task._doc.priority %></span>
+                                                    </div>
+                                                </div>
+                                                <!-- <div class="card__options"><i class='bx bx-dots-horizontal-rounded' ></i></div> -->
+                                            </div>
+                                            <div class="card__body">
+                                                <div class="card__grouping">
+                                                    <div class="card__comments">
+                                                        <p class="task__comment--count"><%= task._doc.commentCount %></p>
+                                                        <i class='task__comment--icon bx bx-comment'></i>
+                                                    </div>
+                                                    <p class="card__date">Created: <%= task.createdAtDate %></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            <% } %>
+                            <a href="/tasks/pending" class="tasks__view tasks__view--pending">View All</a>
+                        <% } else { %>
+                            <div class="tasks__not-found--small">
+                                <i class='icon__error--small bx bx-error-circle'></i>
+                                <h3 class="not-found__message--small">You don't have any tasks yet!</h3>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+                <div class="task__category category__body--active">
+                    <div class="task__category--header">
+                        <h2 class="task__category--title"><i class='icon--active bx bx-hard-hat' ></i> Active</h2>
+                    </div>
+                    <div class="task__category--body">
+                        <% if(tasks.activeTasks.length > 0) { %>
+                            <% for(let task of tasks.activeTasks) { %>
+                                <a class="card__link" href="/task/<%= task._doc._id %>">
+                                    <div class="card">
+                                        <div class="card__due-date status--<%= task._doc.status %>">
+                                            <p class="time--<%= task._doc.status %>">Due</p>
+                                            <i class='icon--<%= task._doc.status %> bx bxs-calendar'></i>
+                                            <p class="time--<%= task._doc.status %>"><%= task.dueDate %></p>
+                                        </div>
+                                        <div class="card__details">
+                                            <div class="card__header">
+                                                <div class="task__header--section">
+                                                    <h3 class="card__title"><%= task._doc.title %></h3>
+                                                    <div class="task__header--section">
+                                                        <span class="badge badge--<%= task._doc.priority %>"><%= task._doc.priority %></span>
+                                                    </div>
+                                                </div>
+                                                <!-- <div class="card__options"><i class='bx bx-dots-horizontal-rounded' ></i></div> -->
+                                            </div>
+                                            <div class="card__body">
+                                                <div class="card__grouping">
+                                                    <div class="card__comments">
+                                                        <p class="task__comment--count"><%= task._doc.commentCount %></p>
+                                                        <i class='task__comment--icon bx bx-comment'></i>
+                                                    </div>
+                                                    <p class="card__date">Created: <%= task.createdAtDate %></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            <% } %>
+                            <a href="/tasks/active" class="tasks__view tasks__view--active">View All</a>
+                        <% } else { %>
+                            <div class="tasks__not-found--small">
+                                <i class='icon__error--small bx bx-error-circle'></i>
+                                <h3 class="not-found__message--small">You don't have any tasks yet!</h3>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+                <div class="task__category category__body--hold">
+                    <div class="task__category--header">
+                        <h2 class="task__category--title"><i class='icon--hold bx bx-lock-alt'></i> On Hold</h2>
+                    </div>
+                    <div class="task__category--body">
+                        <% if(tasks.onHoldTasks.length > 0) { %>
+                            <% for(let task of tasks.onHoldTasks) { %>
+                                <a class="card__link" href="/task/<%= task._doc._id %>">
+                                    <div class="card">
+                                        <div class="card__due-date status--<%= task._doc.status %>">
+                                            <p class="time--<%= task._doc.status %>">Due</p>
+                                            <i class='icon--<%= task._doc.status %> bx bxs-calendar'></i>
+                                            <p class="time--<%= task._doc.status %>"><%= task.dueDate %></p>
+                                        </div>
+                                        <div class="card__details">
+                                            <div class="card__header">
+                                                <div class="task__header--section">
+                                                    <h3 class="card__title"><%= task._doc.title %></h3>
+                                                    <div class="task__header--section">
+                                                        <span class="badge badge--<%= task._doc.priority %>"><%= task._doc.priority %></span>
+                                                    </div>
+                                                </div>
+                                                <!-- <div class="card__options"><i class='bx bx-dots-horizontal-rounded' ></i></div> -->
+                                            </div>
+                                            <div class="card__body">
+                                                <div class="card__grouping">
+                                                    <div class="card__comments">
+                                                        <p class="task__comment--count"><%= task._doc.commentCount %></p>
+                                                        <i class='task__comment--icon bx bx-comment'></i>
+                                                    </div>
+                                                    <p class="card__date">Created: <%= task.createdAtDate %></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            <% } %>
+                            <a href="/tasks/on-hold" class="tasks__view tasks__view--hold">View All</a>
+                        <% } else { %>
+                            <div class="tasks__not-found--small">
+                                <i class='icon__error--small bx bx-error-circle'></i>
+                                <h3 class="not-found__message--small">You don't have any tasks yet!</h3>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+                <div class="task__category category__body--reviewing">
+                    <div class="task__category--header">
+                        <h2 class="task__category--title"><i class='icon--reviewing bx bx-glasses' ></i> In Review</h2>
+                    </div>
+                    <div class="task__category--body">
+                        <% if(tasks.inReviewTasks.length > 0) { %>
+                            <% for(let task of tasks.inReviewTasks) { %>
+                                <a class="card__link" href="/task/<%= task._doc._id %>">
+                                    <div class="card">
+                                        <div class="card__due-date status--<%= task._doc.status %>">
+                                            <p class="time--<%= task._doc.status %>">Due</p>
+                                            <i class='icon--<%= task._doc.status %> bx bxs-calendar'></i>
+                                            <p class="time--<%= task._doc.status %>"><%= task.dueDate %></p>
+                                        </div>
+                                        <div class="card__details">
+                                            <div class="card__header">
+                                                <div class="task__header--section">
+                                                    <h3 class="card__title"><%= task._doc.title %></h3>
+                                                    <div class="task__header--section">
+                                                        <span class="badge badge--<%= task._doc.priority %>"><%= task._doc.priority %></span>
+                                                    </div>
+                                                </div>
+                                                <!-- <div class="card__options"><i class='bx bx-dots-horizontal-rounded' ></i></div> -->
+                                            </div>
+                                            <div class="card__body">
+                                                <div class="card__grouping">
+                                                    <div class="card__comments">
+                                                        <p class="task__comment--count"><%= task._doc.commentCount %></p>
+                                                        <i class='task__comment--icon bx bx-comment'></i>
+                                                    </div>
+                                                    <p class="card__date">Created: <%= task.createdAtDate %></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            <% } %>
+                            <a href="/tasks/in-review" class="tasks__view tasks__view--reviewing">View All</a>
+                        <% } else { %>
+                            <div class="tasks__not-found--small">
+                                <i class='icon__error--small bx bx-error-circle'></i>
+                                <h3 class="not-found__message--small">You don't have any tasks yet!</h3>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+                <div class="task__category category__body--complete">
+                    <div class="task__category--header">
+                        <h2 class="task__category--title"><i class='icon--completed bx bx-check' ></i> Completed</h2>
+                    </div>
+                    <div class="task__category--body">
+                        <% if(tasks.completedTasks.length > 0) { %>
+                            <% for(let task of tasks.completedTasks) { %>
+                                <a class="card__link" href="/task/<%= task._doc._id %>">
+                                    <div class="card">
+                                        <div class="card__due-date status--<%= task._doc.status %>">
+                                            <p class="time--<%= task._doc.status %>">Due</p>
+                                            <i class='icon--<%= task._doc.status %> bx bxs-calendar'></i>
+                                            <p class="time--<%= task._doc.status %>"><%= task.dueDate %></p>
+                                        </div>
+                                        <div class="card__details">
+                                            <div class="card__header">
+                                                <div class="task__header--section">
+                                                    <h3 class="card__title"><%= task._doc.title %></h3>
+                                                    <div class="task__header--section">
+                                                        <span class="badge badge--<%= task._doc.priority %>"><%= task._doc.priority %></span>
+                                                    </div>
+                                                </div>
+                                                <!-- <div class="card__options"><i class='bx bx-dots-horizontal-rounded' ></i></div> -->
+                                            </div>
+                                            <div class="card__body">
+                                                <div class="card__grouping">
+                                                    <div class="card__comments">
+                                                        <p class="task__comment--count"><%= task._doc.commentCount %></p>
+                                                        <i class='task__comment--icon bx bx-comment'></i>
+                                                    </div>
+                                                    <p class="card__date">Created: <%= task.createdAtDate %></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            <% } %>
+                        <a href="/tasks/completed" class="tasks__view tasks__view--complete">View All</a>
+                        <% } else { %>
+                            <div class="tasks__not-found--small">
+                                <i class='icon__error--small bx bx-error-circle'></i>
+                                <h3 class="not-found__message--small">You don't have any tasks yet!</h3>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        <% } else { %>
+            <div class="tasks__not-found">
+                <i class='icon__error bx bx-error-circle'></i>
+                <h3 class="not-found__message">You don't have any tasks yet!</h3>
+            </div>
+        <% } %>
+    </main>
+    <%- include("../includes/footer.ejs")%>
+
+   

@@ -1,0 +1,94 @@
+@import "../variables.css";
+
+.form-title {
+    font-size: 1.85rem;
+    margin: 10px 0;
+}
+
+.form__control {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem 0;
+}
+
+.form__control label {
+    width: 200px;
+    margin-right: 20px;
+    font-size: 1.25rem;
+}
+
+.form__control input,
+.form__control textarea,
+.form__control select {
+    border: none;
+    outline: none;
+    resize: none;
+}
+
+.form__control input[type="text"],
+.form__control input[type="email"],
+.form__control input[type="password"],
+.form__control input[type="date"],
+.form__control select {
+    height: 50px;
+    font-size: 1.25rem;
+    padding-left: 15px;
+    border-radius: var(--radius);
+    cursor: pointer;
+}
+
+.form__control textarea {
+    min-height: 300px;
+    padding: 15px;
+    font-size: 1.25rem;
+    border-radius: var(--radius);;
+}
+
+.form__control input[type="text"]:focus,
+.form__control textarea:focus,
+.form__control select:focus {
+    outline: var(--accent);
+    border: 2px solid var(--accent);
+}
+
+.form__control button {
+    margin: 1rem 0;
+}
+
+.file__upload::file-upload-button {
+    background: var(--white-darkened);
+    color: var(--plum);
+}
+
+.input-dark {
+	/* background-color: #333; */
+    border: 1px solid var(--bg-light) !important;
+    color: var(--txt-primary);
+}
+
+.file__upload {
+    background: var(--white);
+    cursor: pointer;
+    border-radius: var(--radius);
+    color: var(--black);
+    font-weight: bold;
+}
+
+.file__upload::-webkit-file-upload-button {
+    background: var(--accent);
+    height: 40px;
+    padding: .5rem 1rem;
+    border: none;
+    outline: none;
+    border-radius: var(--radius) 0 0 var(--radius);
+    color: var(--white);
+    cursor: pointer;
+}
+
+.file__upload:hover {
+    opacity: var(--opacity-85);
+}
+
+.input__comment {
+    width: 100%;
+}

@@ -1,0 +1,51 @@
+@import "../variables.css";
+
+.icon--all {
+	color: var(--black);
+}
+
+.icon--active {
+	color: var(--yellow);
+}
+
+.icon--pending {
+	color: var(--light-blue);
+}
+
+.icon--hold {
+	color: var(--red);
+}
+
+.icon--reviewing {
+	color: var(--purple);
+}
+
+.icon--completed {
+	color: var(--green);
+}
+
+.icon__mobile,
+.icon__close {
+	display: none;
+	position: fixed;
+	top: 1rem;
+	right: 1rem;
+	font-size: 3rem;
+	color: var(--accent);
+	cursor: pointer;
+	transition: var(--ease-in-out);
+}
+
+.icon__mobile:hover,
+.icon__mobile:focus,
+.icon__close:hover,
+.icon__close:focus {
+	opacity: var(--opacity-85);
+}
+
+@media only screen and (max-width: 768px) {
+	.icon__mobile,
+	.icon__close {
+		display: block;
+	}
+}

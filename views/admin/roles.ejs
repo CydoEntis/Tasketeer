@@ -1,0 +1,38 @@
+<%- include("../includes/header.ejs")%>
+</head>
+<body>
+    <%- include("../includes/side-navigation.ejs")%>
+    <main class="content">
+        <section>
+          <h2 class="page__title"><a class="btn btn-back" href="/admin"><i class='bx bx-arrow-back'></i></a> <%= title %></h2>
+            <form action="/set-roles" method="POST">
+              <table class="admin__table">
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Is Admin</th>
+                </tr>
+                <% for(let user of users) { %>
+                  <tr>
+                    <td><%= user.username %></td>
+                    <td><%= user.email %></td>
+                    <td><%= user.role %></td>
+                    <td>
+                      <% if(user.role === 'admin') { %>
+                        <input type="hidden" value="<%= user._id %>" name="id">
+                        <input type="checkbox" name="role" value="<%= user._id %>" checked>
+                      <% } else { %>
+                        <input type="hidden" value="<%= user._id %>" name="id">
+                        <input type="checkbox" name="role" value="<%= user._id %>">
+                      <% }  %>
+                    </td>
+                  </tr>
+                <% } %>
+              </table>
+              <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+              <button class="btn btn--right" type="submit">Update Roles</button>
+            </form>
+        </section>
+    </main>
+<%- include("../includes/footer.ejs")%>`

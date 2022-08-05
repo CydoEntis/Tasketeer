@@ -1,0 +1,119 @@
+<nav id="sideNav" class="nav nav__desktop">
+	<h2 class="logo"><a href="/">Tasketeer</a></h2>
+	<ul>
+		<% if(!isAuthenticated) { %>
+			<li>
+				<a
+					class="<%= activePage === '/login' ? 'active' : '' %>"
+					href="/login"
+					>Log In</a
+				>
+			</li>
+			<li>
+				<a
+					class="<%= activePage === '/signup' ? 'active' : '' %>"
+					href="/signup"
+					>Sign Up</a
+				>
+			</li>
+		<% } else { %>
+			<% if(isAdmin) {%>
+				<li>
+					<a
+						class="<%= activePage === '/admin' ? 'active' : '' %>"
+						href="/admin"
+						><span><i class="bx bx-shield-alt-2"></i> Admin</span></a
+					>
+				</li>
+				<li>
+					<a
+						class="<%= activePage === '/roles' ? 'active' : '' %>"
+						href="/roles"
+						><span><i class='bx bxs-user-badge'></i> Roles</span></a
+					>
+				</li>
+			<% } %>
+		<li>
+			<a
+				class="<%= activePage === '/dashboard' ? 'active' : '' %>"
+				href="/dashboard"
+				><span><i class="bx bxs-dashboard"></i> Dashboard</span></a
+			>
+		</li>
+		<li>
+			<a
+				class="<%= activePage === '/tasks' ? 'active' : '' %>"
+				href="/tasks"
+				><span><i class="bx bx-task"></i> Tasks</span></a
+			>
+		</li>
+		<li id="darkMode" type="button">
+			<i class="bx bx-moon"></i>
+		</li>
+	</ul>
+
+	<div class="nav-controls">
+		<form action="/logout" method="POST">
+			<input type="hidden" value="<%= csrfToken %>" name="_csrf" />
+			<button class="btn btn-logout" type="submit">Logout</button>
+		</form>
+	</div>
+	<% } %>
+</nav>
+
+<nav id="sideNav" class="nav nav__mobile">
+	<h2 class="logo"><a href="/">Tasketeer</a></h2>
+	<ul>
+		<% if(!isAuthenticated) { %>
+			<li>
+				<a
+					class="<%= activePage === '/login' ? 'active' : '' %>"
+					href="/login"
+					>Log In</a
+				>
+			</li>
+			<li>
+				<a
+					class="<%= activePage === '/signup' ? 'active' : '' %>"
+					href="/signup"
+					>Sign Up</a
+				>
+			</li>
+		<% } else { %>
+			<% if(isAdmin) {%>
+				<h2 class="category-title"></h2>
+				<li>
+					<a
+						class="<%= activePage === '/admin' ? 'active' : '' %>"
+						href="/admin"
+						><span><i class="bx bx-shield-alt-2"></i> Admin</span></a
+					>
+				</li>
+			<% } %>
+		<li>
+			<a
+				class="<%= activePage === '/dashboard' ? 'active' : '' %>"
+				href="/dashboard"
+				><span><i class="bx bxs-dashboard"></i> Dashboard</span></a
+			>
+		</li>
+		<li>
+			<a
+				class="<%= activePage === '/tasks' ? 'active' : '' %>"
+				href="/tasks"
+				><span><i class="bx bx-task"></i> Tasks</span></a
+			>
+		</li>
+		<li id="darkMode" type="button">
+			<i class="bx bx-moon"></i>
+		</li>
+	</ul>
+
+	<div class="nav-controls">
+		<form action="/logout" method="POST">
+			<input type="hidden" value="<%= csrfToken %>" name="_csrf" />
+			<button class="btn btn-logout" type="submit">Logout</button>
+		</form>
+	</div>
+	<% } %>
+</nav>

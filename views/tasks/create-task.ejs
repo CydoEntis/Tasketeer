@@ -1,0 +1,39 @@
+<%- include("../includes/header.ejs")%>
+<title><%= pageTitle %></title>
+</head>
+<body>
+    <%- include("../includes/side-navigation.ejs")%>
+    <main class="content">
+        <section>
+            <h1 class="page__title"><a class="btn btn-back" href="/tasks"><i class='bx bx-arrow-back'></i></a><%= pageTitle %></h1>
+            <i id="mobileNav" class='bx bx-menu hamburger'></i>
+            <% if(errorMessage) { %>
+                <div class="invalid"><%= errorMessage %></div>
+            <% } %>
+            <form action="/tasks/create-task" method="POST" enctype="multipart/form-data">
+                <div class="form__control">
+                    <label for="title">Title</label>
+                    <input type="text" placeholder="Enter the tasks title" id="title" name="title">
+                </div>
+                <div class="form__control">
+                    <label for="description">Description</label>
+                    <textarea name="description"></textarea>
+                </div>
+                <div class="form__control">
+                    <label for="images">Upload Image</label>
+                    <input 
+                        class="file__upload"
+                        type="file" 
+                        name="images" 
+                        id="images"
+                        multiple
+                    >
+                </div>
+                <div class="form__control">
+                    <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+                    <button type="submit" class="btn btn-submit">Submit Ticket</button>
+                </div>
+            </form>
+        </section>
+    </main>
+<%- include("../includes/footer.ejs")%>

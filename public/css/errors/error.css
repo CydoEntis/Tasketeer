@@ -1,0 +1,16 @@
+@import "../variables.css";
+
+.error__not-found {
+  text-align: center;
+  font-size: 1.2rem;
+  color: var(--secondary-text);
+  padding: 15px 5px;
+}
+
+.invalid {
+  background: var(--red-lightened);
+  color: var(--red-darkened);
+  padding: 1rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--red-darkened);
+}

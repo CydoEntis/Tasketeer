@@ -1,0 +1,47 @@
+@import "../variables.css";
+
+.bubble {
+	position: absolute;
+	border-radius: 50%;
+	box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px,
+		rgba(0, 0, 0, 0.23) 0px 6px 6px;
+}
+
+.bubble__primary {
+	background: linear-gradient(
+		45deg,
+		rgba(255, 207, 171, 1) 0%,
+		rgba(253, 139, 141, 1) 49%,
+		rgba(206, 106, 221, 1) 100%
+	);
+	width: 150px;
+	height: 150px;
+}
+
+.bubble__alt {
+	background: linear-gradient(
+		45deg,
+		rgba(17, 17, 23, 1) 0%,
+		rgba(25, 25, 33, 1) 49%,
+		rgba(48, 48, 64, 1) 100%
+	);
+	width: 100px;
+	height: 100px;
+}
+
+.bubble__pos-1 {
+	top: 30%;
+	left: 30%;
+}
+.bubble__pos-2 {
+	top: 60%;
+	right: 20%;
+}
+.bubble__pos-3 {
+	bottom: 10%;
+	left: 10%;
+}
+.bubble__pos-4 {
+	right: 20%;
+	top: 25%;
+}

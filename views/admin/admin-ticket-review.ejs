@@ -1,0 +1,37 @@
+<%- include("../includes/header.ejs")%>
+</head>
+<body>
+    <%- include("../includes/navigation.ejs")%>
+    <%- include("../includes/side-navigation.ejs")%>
+    <main class="wrapper">
+        <section class="container">
+            <div class="ticket__controls">
+                <a href="/admin"><div class="ticket__controls-back"><i class='bx bx-arrow-back'></i></div></a>
+                <h3><%= title %></h3>
+            </div>
+        </section>
+        <section class="container dashboard">
+            <h1>Admin Panel</h1>
+            <table class="admin__table">
+                <tr>
+                    <th>Date</th>
+                    <th>Title</th>
+                    <th>Submitted By</th>
+                    <th>Assigned To</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+                <% for(let ticket of tickets) {%>
+                <tr>
+                    <td><%= ticket.createdAt %></td>
+                    <td><%= ticket._doc.title %></td>
+                    <td><%= ticket.createdBy %></td>
+                    <td><%= ticket._doc.pending ? 'Pending' : ticket.assingedTo %></td>
+                    <td><%= ticket._doc.completed ? 'Completed' : 'In Progress' %></td>
+                    <td><a href="/edit-ticket/<%= ticket._doc._id %>">Review</a></td>
+                </tr>
+                <% } %>
+            </table>
+        </section>
+    </main>
+<%- include("../includes/footer.ejs")%>`

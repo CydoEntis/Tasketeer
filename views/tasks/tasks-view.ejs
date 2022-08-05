@@ -1,0 +1,75 @@
+<%- include("../includes/header.ejs")%>
+    <title><%= title %></title>
+</head>
+
+<body>
+    <!-- <%- include("../includes/navigation.ejs")%> -->
+    <%- include("../includes/side-navigation.ejs")%>
+    <main class="content">
+        <div class="page__header">
+            <h1 class="page__title">Tasks</h1>
+            <button class="hamburger">
+                <div class="bar"></div>
+            </button>
+            <div class="controls">
+                <form action="/search">
+                    <label for="search"><i class='bx bx-search'></i></label>
+                    <input type="text" name="search">
+                </form>
+                <a href="/tasks/create-task" class="btn">Create Task</a>
+            </div>
+        </div>
+        <section>
+                <% if(tasks.length > 0) { %>
+                    <div class="task__categories">
+                        <div class="task__category category__body--all">
+                            <div class="task__category--header">
+                                <h2 class="task__category--title"><%= title %> <span class="count"> (<%= tasks.length %>)</span></h2>
+                            </div>
+                            <div class="task__category--body">
+                                <% for(let task of tasks) { %>
+                                    <a class="card__link" href="/task/<%= task._doc._id %>">
+                                        <div class="card">
+                                            <div class="card__due-date status--<%= task._doc.status %>">
+                                                <p class="time--<%= task._doc.status %>">Due</p>
+                                                <i class='icon--<%= task._doc.status %> bx bxs-calendar'></i>
+                                                <p class="time--<%= task._doc.status %>"><%= task.dueDate %></p>
+                                            </div>
+                                            <div class="card__details">
+                                                <div class="card__header">
+                                                    <div class="task__header--section">
+                                                        <h3 class="card__title"><%= task._doc.title %></h3>
+                                                        <div class="task__header--section">
+                                                            <span class="badge badge--<%= task._doc.priority %>"><%= task._doc.priority %></span>
+                                                        </div>
+                                                    </div>
+                                                    <!-- <div class="card__options"><i class='bx bx-dots-horizontal-rounded' ></i></div> -->
+                                                </div>
+                                                <div class="card__body">
+                                                    <div class="card__grouping">
+                                                        <div class="card__comments">
+                                                            <p class="task__comment--count"><%= task._doc.commentCount %></p>
+                                                            <i class='task__comment--icon bx bx-comment'></i>
+                                                        </div>
+                                                        <p class="card__date">Created: <%= task.createdAtDate %></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                <% } %>
+                            </div>
+                        </div>
+                        <%- include("../includes/pagination.ejs"); %>
+                    </div>
+                <% } else { %>
+                    <div class="tasks__not-found">
+                        <i class='icon__error bx bx-error-circle'></i>
+                        <h3 class="not-found__message">You don't have any tasks yet!</h3>
+                    </div>
+                <% } %>
+        </section>
+    </main>
+    <%- include("../includes/footer.ejs")%>
+
+   

@@ -1,0 +1,21 @@
+@import "../variables.css";
+
+.status--pending {
+	color: var(--light-blue)
+}
+
+.status--active {
+	color: var(--yellow)
+}
+
+.status--hold {
+	color: var(--red)
+}
+
+.status--reviewing {
+	color: var(--purple)
+}
+
+.status--complete {
+	color: var(--green)
+}

@@ -1,0 +1,18 @@
+<nav class="nav__main--auth">
+	<ul class="nav__links">
+		<div class="nav__links--section">
+			<h3 class="logo">Tasketeer</h3>
+		</div>
+		<div class="nav__links--section">
+			<% if(!isAuthenticated) { %>
+				<li><a class="<%= activePage === '/login' ? 'active' : '' %>" href="/login">Log In</a></li>
+				<li><a class="<%= activePage === '/signup' ? 'active' : '' %>" href="/signup">Sign Up</a></li>
+			<% } else { %>
+				<li><a class="<%= activePage === '/login' ? 'active' : '' %>" href="/logout">Log Out</a></li>
+			<% } %>
+			<button id="darkMode" type="button">
+				<i class="bx bx-moon"></i>
+			</button>
+		</div>
+	</ul>
+</nav>

@@ -1,0 +1,32 @@
+<%- include("../includes/header.ejs")%>
+</head>
+<body>
+    <%- include("../includes/side-navigation.ejs")%>
+    <main class="content">
+        <section class="container">
+            <button class="hamburger">
+                <div class="bar"></div>
+            </button>
+            <div class="auth">
+                <% if(errorMessage) { %>
+                    <div class="invalid"><%= errorMessage %></div>
+                <% } %>
+                <form class="auth-form" action="/login" method="POST">
+                    <h2 class="page__title">Log In</h2>
+                    <div class="form__control">
+                        <label for="email">Email</label>
+                        <input type="email" placeholder="Email" id="email" name="email">
+                    </div>
+                    <div class="form__control">
+                      <label for="password">Password</label>
+                      <input type="password" placeholder="Password" id="password" name="password">
+                  </div>
+                    <div class="form__control">
+                        <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+                        <button type="submit" class="btn">Log In</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+<%- include("../includes/footer.ejs")%>

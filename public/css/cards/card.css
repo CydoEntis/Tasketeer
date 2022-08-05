@@ -1,0 +1,153 @@
+@import "../variables.css";
+
+.card {
+	position: relative;
+	display: flex;
+	margin: 1rem auto;
+	background-color: var(--white);
+	/* padding: .5rem 1rem; */
+	border-radius: var(--radius);;
+	box-shadow: var(--box-shadow);
+	cursor: pointer;
+	transition: var(--ease-in-out);
+	height: 100px;
+}
+
+.card:hover {
+	transform: scale(1.0125);
+}
+
+.card__due-date {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 100px;
+	border-right: 2px solid var(--grey);
+	border-radius: var(--radius) 0 0 var(--radius) ;
+}
+
+.card__due-date i {
+	font-size: 1.65rem;
+}
+
+.card__due-date p {
+	text-align: center;
+	font-size: .85rem;
+}
+
+.card__details {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	width: calc(100% - 100px);
+	padding: .5rem 1rem;
+}
+
+.card__header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.card__title {
+	font-size: 1.25rem;
+	margin-right: 1rem;
+}
+
+.card__options {
+	position: absolute;
+	top: .5rem;
+	right: .5rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: 1px solid var(--grey);
+	padding: 0.5rem;
+	border-radius: 0.4rem;
+}
+
+.card__body {
+	margin: 0.25rem 0;
+}
+
+.card__description {
+	font-size: 0.85rem;
+}
+
+.card__grouping {
+	display: flex;
+	justify-content: space-between;
+}
+
+
+.card__comments {
+	display: flex;
+	align-items: center;
+}
+
+.card__date {
+	font-size: .85rem;
+	font-style: italic;
+	color: var(--dark-grey);
+}
+
+.card__link {
+	color: var(--black);
+}
+
+@media only screen and (max-width: 965px) {
+	.card__header {
+		max-width: 90%;
+	}
+
+}
+
+@media only screen and (max-width: 900px) {
+	.card__title {
+		font-size: 1.15rem;
+	}
+}
+
+@media only screen and (max-width: 645px) {
+	.card__due-date {
+		width: 75px;
+	}
+
+	.card__details {
+		width: calc(100% - 75px);
+	}
+
+	.card__title {
+		font-size: 1rem;
+		width: 90%;
+	}
+}
+
+@media only screen and (max-width: 465px) {
+	.card {
+		height: 150px;
+	}
+
+	/* .badge {
+		margin: 0;
+	}*/
+
+	.task__header--section {
+		flex-direction: column;
+		align-items: flex-start !important;
+	} 
+
+}
+
+@media only screen and (max-width: 365px) {
+	.card {
+		height: 175px;
+	}
+
+	.task__header--section {
+		flex-direction: column;
+		align-items: flex-start !important;
+	} 
+
+}

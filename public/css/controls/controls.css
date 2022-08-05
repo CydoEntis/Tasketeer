@@ -1,0 +1,87 @@
+@import "../variables.css";
+
+.controls {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.controls--flex {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.controls form {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.controls form label {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 55px;
+	width: 50px;
+	background-color: var(--accent);
+	color: var(--white);
+	border-radius: var(--radius) 0 0 var(--radius);
+	border: 2px solid var(--accent);
+}
+
+.controls form label i {
+	font-size: 1.5rem;
+}
+
+.controls form input {
+	border: none;
+	outline: none;
+	width: 350px;
+	height: 55px;
+	border-radius: 0 var(--radius) var(--radius) 0;
+	font-size: 1.5rem;
+	color: var(--black);
+	padding: 1rem;
+	border: 2px solid var(--grey);
+}
+
+.controls form input:focus {
+	outline: var(--accent);
+	border: 2px solid var(--accent);
+}
+
+.controls a {
+	margin: 0 2rem;
+}
+
+.admin__controls {
+	margin: 1rem 0;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+.admin__controls a {
+	margin-right: .75rem;
+}
+
+@media only screen and (max-width: 1024px) {
+	.controls form label i {
+		font-size: 1.25rem;
+	}
+	
+	.controls form input {
+		width: 250px;
+		font-size: 1.25rem;
+	}
+}
+
+@media only screen and (max-width: 1024px) {
+	.controls form,
+	.controls a {
+		display: none;
+	}
+}
+
+

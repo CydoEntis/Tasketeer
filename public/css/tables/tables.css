@@ -1,0 +1,173 @@
+.admin__table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.admin__table th {
+	text-align: left;
+}
+
+
+.admin__table th:first-child {
+	padding: 10px;
+}
+
+.admin__table tr td {
+	padding: 1rem;
+}
+
+.admin-controls {
+	width: 100%;
+}
+
+
+
+.admin__table tr {
+	background: var(--white);
+	padding: 1rem;
+}
+
+.admin__table tr:nth-child(even) {
+	background: var(--white-darkened);
+}
+
+.admin__table-dark tr {
+	color: var(--white);
+	background: var(--dark-mode-primary) !important;
+	padding: 0.85rem;
+}
+
+.admin__table tr:first-of-type,
+.admin__table-dark tr:first-of-type {
+	background: var(--accent) !important;
+	color: var(--white);
+}
+
+.admin__table-dark tr:nth-child(even) {
+	color: var(--white);
+	background: var(--dark-mode-tertiary) !important;
+}
+
+.btn--table {
+	padding: .5rem;
+	color: var(--white);
+	background-color: var(--accent);
+	border-radius: var(--radius);
+	transition: var(--ease-in-out);
+}
+
+.btn--table:hover {
+	opacity: var(--opacity-85);
+}
+
+@media screen and (max-width: 1024px) {
+	table,
+	thead,
+	tbody,
+	th,
+	td,
+	tr {
+		display: block;
+		font-size: 0.85rem;
+	}
+
+	/* Hide table headers (but not display: none;, for accessibility) */
+	thead tr {
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+
+	.admin__table tr td {
+    padding: .75rem 0;
+		padding-left: 45%;
+	}
+
+	td {
+		/* Behave  like a "row" */
+		border: none;
+		position: relative;
+		padding: 0.25rem 0;
+		padding-left: 45%;
+	}
+
+	td:before {
+		/* Now like a table header */
+		position: absolute;
+		/* Top/left values mimic padding */
+		top: 6px;
+		left: 6px;
+		width: 30%;
+		padding-right: 10px;
+		white-space: nowrap;
+	}
+
+	.admin__table {
+		width: 100%;
+		border-collapse: collapse;
+		/* margin-top: 50px; */
+	}
+
+	.admin__table tr:first-of-type {
+		display: none;
+		background: var(--accent);
+		color: var(--white);
+	}
+
+	.admin__table tr {
+		background: var(--white);
+		padding: 0.85rem;
+	}
+
+	.admin__table tr:nth-child(even) {
+		background: var(--white-darkened);
+	}
+
+	.admin-controls {
+		display: inline-block;
+		width: 100%;
+		margin: 0.5rem 0;
+	}
+
+	.admin-controls a {
+		font-size: 0.75rem;
+		margin: 0.25rem;
+	}
+
+	.admin__table td:nth-of-type(1):before {
+		content: 'Date';
+		color: var(--accent);
+		font-weight: bold;
+		font-size: .85rem
+	}
+	.admin__table td:nth-of-type(2):before {
+		content: 'Title';
+		color: var(--accent);
+		font-weight: bold;
+		font-size: .85rem
+	}
+	.admin__table td:nth-of-type(3):before {
+		content: 'Submitted By';
+		color: var(--accent);
+		font-weight: bold;
+		font-size: .85rem
+	}
+	.admin__table td:nth-of-type(4):before {
+		content: 'Assigned To';
+		color: var(--accent);
+		font-weight: bold;
+		font-size: .85rem
+	}
+	.admin__table td:nth-of-type(5):before {
+		content: 'Status';
+		color: var(--accent);
+		font-weight: bold;
+		font-size: .85rem
+	}
+	.admin__table td:nth-of-type(6):before {
+		content: '';
+		color: var(--accent);
+		font-weight: bold;
+		font-size: .85rem
+	}
+}

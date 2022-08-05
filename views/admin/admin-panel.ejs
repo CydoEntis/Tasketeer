@@ -1,0 +1,62 @@
+<%- include("../includes/header.ejs")%>
+</head>
+<body>
+    <%- include("../includes/side-navigation.ejs")%>
+    <main class="content">
+        <section>
+            <h2 class="page__title"><a class="btn btn-back" href="/dashboard"><i class='bx bx-arrow-back'></i></a> <%= title %></h2>
+            <button class="hamburger">
+                <div class="bar"></div>
+            </button>
+                <table class="admin__table">
+                    <div class="admin__controls">
+                        <a class="badge badge--all <%= activeBtn === "all" ? "active--badge" : "" %>" href="/admin">All Tasks</a>
+                        <a class="badge badge--pending <%= activeBtn === "pending" ? "active--badge" : "" %>" href="/admin/pending-tasks">Pending</a>
+                        <a class="badge badge--active <%= activeBtn === "active" ? "active--badge" : "" %>" href="/admin/active-tasks">Active</a>
+                        <a class="badge badge--hold <%= activeBtn === "hold" ? "active--badge" : "" %>" href="/admin/hold-tasks">On Hold</a>
+                        <a class="badge badge--reviewing <%= activeBtn === "reviewing" ? "active--badge" : "" %>" href="/admin/review-tasks">Needs Review</a>
+                        <a class="badge badge--complete <%= activeBtn === "complete" ? "active--badge" : "" %>" href="/admin/completed-tasks">Completed</a>
+                    </div>
+                    <% if(tasks.length <= 0) { %>
+                        <div class="tasks__not-found">
+                            <i class='icon__error bx bx-error-circle'></i>
+                            <h3 class="not-found__message">You don't have any tasks yet!</h3>
+                        </div>
+                    <% } else { %>
+                        <tr>
+                            <th>Submitted On</th>
+                            <th>Title</th>
+                            <th>Submitted By</th>
+                            <th>Assigned To</th>
+                            <th>Status</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <% for(let task of tasks) {%>
+                            <tr>
+                                <td><%= task.createdAt %></td>
+                                <td><%= task._doc.title %></td>
+                                <td><%= task._doc.createdBy.username %></td>
+                                <% if(!task._doc.assignedTo.userId) { %>
+                                    <td><span class="badge badge--pending">Not Assigned</span></td>
+                                <% } else { %>
+                                    <td><%= task._doc.assignedTo.username %></td>
+                                <% } %>
+        
+                                <td><span class="badge badge--<%= task._doc.status %>"><%= task._doc.status %></span></td>
+                                <% if(task._doc.status !== 'pending') { %>
+                                    <td><a class="btn--table" href="/admin/admin-edit/<%= task._doc._id %>">Edit</a></td>
+                                <% } else { %>
+                                    <td><a class="btn--table" href="/admin/admin-edit/<%= task._doc._id %>">Assign</a></td>
+                                <% } %>
+                                <td><a class="btn--table" href="/task/<%= task._doc._id %>">View</a></td>
+                            </tr>
+                            <% } %>
+                    <% } %>
+                </table>
+                <% if(tasks.length > 0) { %>
+                    <%- include("../includes/pagination.ejs"); %>
+                <% } %>
+        </section>
+    </main>
+<%- include("../includes/footer.ejs")%>`

@@ -1,0 +1,108 @@
+<%- include("../includes/header.ejs")%>
+</head>
+<body>
+    <%- include("../includes/side-navigation.ejs")%>
+    <main class="content">
+        <section>
+          <% if(errorMessage) { %>
+            <div class="invalid"><%= errorMessage %></div>
+          <% } %>
+            <div class="task">
+                <h2 class="page__title"><a class="btn btn-back" href="/admin"><i class='bx bx-arrow-back'></i></a>
+                <% if(task._doc.status === "pending") { %> 
+                  Assign Task
+                <% } else { %>
+                  Edit Task
+                <% } %>
+                </h2>
+                <p class="task__submission--info">Submitted by <%= task._doc.createdBy.username %> on <%= task.createdAt %></p>
+                <h3 class="task__title"><%= task._doc.title %></h3>
+                <p class="task__desc"><%= task._doc.description %></p>
+                <div class="task__images">
+                  <% for(let image of images) {%>
+                        <div class="task__image">
+                            <img src="/<%= image.path %>" alt="">
+                        </div>
+                    <% } %>
+                </div>
+                <% if(task._doc.status === "active") { %>
+                  <form action="/put-on-hold" method="POST">
+                    <input type="hidden" value="<%= task._doc._id %>" name="id">
+                    <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+                    <button class="btn" type="submit">Put On Hold</button>
+                </form>
+                <% } else { %>
+                  <form action="/take-off-hold" method="POST">
+                    <input type="hidden" value="<%= task._doc._id %>" name="id">
+                    <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+                    <button class="btn" type="submit">Take Off Hold</button>
+                </form>
+                <% } %>
+                <% if(task._doc.status === "reviewing") { %>
+                    <form action="admin/task/complete-task" method="POST">
+                        <input type="hidden" value="<%= task._doc._id %>" name="id">
+                        <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+                        <button class="btn" type="submit">Mark Completed</button>
+                    </form>
+                <% } %>
+                <form action="/assign-task" method="POST">
+                    <div class="form__control">
+                        <label for="priority">Assign Priority</label>
+                        <select name="priority">
+                          <% if(task._doc.priority === 'high') { %>
+                            <option selected value="high">High</option>
+                            <option value="medium">Medium</option>
+                            <option value="low">Low</option>
+                          <% } else if(task._doc.priority === 'medium') {%>
+                            <option value="high">High</option>
+                            <option selected value="medium">Medium</option>
+                            <option value="low">Low</option>
+                          <% } else if(task._doc.priority === 'low') { %>
+                            <option value="high">High</option>
+                            <option value="medium">Medium</option>
+                            <option selected value="low">Low</option>
+                          <% } else { %>
+                            <option value="high">High</option>
+                            <option value="medium">Medium</option>
+                            <option value="low">Low</option>
+                          <% } %>
+                        </select>
+                    </div>
+                    <div class="form__control">
+                        <label for="user">Assign to</label>
+                        <% if(task._doc.status === "pending") {%>
+                          <select name="userInfo">
+                            <% for(let user of users) {%>
+                                <option value="<%= user.username %>+<%= user._id %>" for="userInfo"><%= user.username %></option>
+                            <% } %>
+                        </select>
+                        <% } else { %>
+                          <select name="userInfo">
+                            <% for(let user of users) {%>
+                              <% if(task._doc.assignedTo.userId.toString() === user._id.toString()) { %>
+                                <option selected value="<%= user.username %>+<%= user._id %>" for="userInfo"><%= user.username %></option>
+                              <% } else { %>
+                                <option value="<%= user.username %>+<%= user._id %>" for="userInfo"><%= user.username %></option>
+                              <% } %>
+                            <% } %>
+                        </select>
+                        <% } %>
+                    </div>
+                    <div class="form__control">
+                      <label for="due">Due Date:</label>
+                      <input type="date" name="due" id="due">
+                    </div>
+                    <div class="form__control">
+                      <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+                      <input type="hidden" value="<%= task._doc._id %>" name="id">
+                    <% if(task._doc.status === "pending") { %> 
+                      <button class="btn" type="submit">Assign Task</button>
+                    <% } else { %>
+                      <button class="btn" type="submit">Edit Task</button>
+                    </div>
+                    <% } %>
+                </form>
+            </div>
+        </section>
+    </main>
+<%- include("../includes/footer.ejs")%>

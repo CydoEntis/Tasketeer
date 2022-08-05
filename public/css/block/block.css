@@ -1,0 +1,42 @@
+@import "../variables.css";
+
+.block {
+	margin: 1rem 0;
+	width: 225px;
+	height: 225px;
+	border-radius: 0.8rem;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	cursor: pointer;
+	transition: ease-in-out all 300ms;
+}
+
+.block__project-add:hover {
+	opacity: 0.55;
+}
+
+.block__icon {
+	font-size: 3rem;
+}
+
+.block__text {
+	font-size: 1.25rem;
+}
+
+.block__project-add {
+	border: 5px dashed var(--dark-secondary);
+}
+
+.block__project {
+	/* background-color: var(--light-secondary); */
+}
+
+.block__project-purple {
+	border: 5px solid var(--purple-lightened);
+	color: var(--purple);
+	/* border: 5px solid var(--purple); */
+}

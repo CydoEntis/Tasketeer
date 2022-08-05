@@ -1,0 +1,44 @@
+.chart {
+	display: none !important;
+}
+
+
+.dashboard-greeting {
+	margin: 1rem 0;
+	font-size: 2.25rem;
+}
+
+.dashboard-title {
+	font-size: 2rem;
+	color: var(--secondary-text);
+}
+
+@media screen and (min-width: 768px) {
+	.chart {
+		display: block !important;
+	}
+}
+
+@media screen and (min-width: 1024px) {
+	.dashboard {
+		min-width: 800px;
+		margin: 0 auto;
+	}
+	
+	.dashboard-title {
+		font-size: 1.75rem;
+		color: var(--secondary-text);
+	}
+	
+	.dashboard__greeting {
+		font-size: 3.25rem;
+		padding-bottom: 20px;
+		text-transform: capitalize;
+	}
+	
+	.dashboard__panel {
+		min-height: 500px;
+		width: 450px;
+		margin: 10px;
+	}
+}

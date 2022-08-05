@@ -1,0 +1,86 @@
+@import "../variables.css";
+
+.comments {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.comment {
+  position: relative;
+  padding: .75rem;
+  background-color: var(--accent);
+  color: var(--white);
+  margin: 10px 0;
+  border-radius: var(--radius);
+  width: 75%;
+  text-align: left;
+}
+
+.comment--delete {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: .5rem;
+  right: .5rem;
+  color: var(--red-darkened);
+  background: var(--red);
+  padding: .15rem .25rem;
+  font-size: 1.5rem;
+  border-radius: var(--radius);
+  transition: var(--ease-in-out);
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.comment--delete:hover {
+  opacity: var(--opacity-85);
+}
+
+.comment--right {
+  text-align: right;
+  border: none;
+  background: var(--white);
+  color: var(--black);
+  align-self: flex-end;
+}
+
+.comment--right .comment-date {
+  text-align: left;
+}
+
+.current-user {
+  font-size: .75rem;
+  font-style: italic
+}
+
+.comment-header {
+  text-transform: capitalize;
+  font-size: 1.15rem;
+}
+
+.comment-body {
+  color: var(--txt-secondary);
+  font-size: .95rem;
+}
+
+.comment-date {
+  color: var(--txt-secondary);
+  font-style: italic;
+  font-size: .65rem;
+  text-align: right;
+}
+
+.comment-dark {
+  background-color: rgb(65, 65, 65);
+  color: var(--bg-light);
+}
+
+.comment-dark p {
+  color: #f5f5f5;
+}
+
+.body-dark {
+  color: #f5f5f5;
+}

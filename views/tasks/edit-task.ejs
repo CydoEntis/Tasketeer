@@ -1,0 +1,42 @@
+<%- include("../includes/header.ejs")%>
+    </head>
+
+    <body>
+        <%- include("../includes/side-navigation.ejs")%>
+            <main class="content">
+                <section>
+                    <h2 class="page__title"><a class="btn btn-back" href="/task/<%= task._doc._id %>"><i class='bx bx-arrow-back'></i></a> Edit Task</h2>
+                    <button class="hamburger">
+                        <div class="bar"></div>
+                    </button>
+                    <% if(errorMessage) { %>
+                        <div class="invalid"><%= errorMessage %></div>
+                    <% } %>
+                    <form action="/edit-task" method="POST">
+                        <div class="form__control">
+                            <label for="title">Title</label>
+                            <input type="text" value="<%= task._doc.title %>" id="title" name="title">
+                        </div>
+
+                        <div class="form__control">
+                            <label for="description">Description</label>
+                            <textarea name="description"><%= task._doc.description %></textarea>
+                        </div>
+                        <div class="form__controls controls--flex">
+                            <% if(task._doc.createdBy.userId.toString() === user._id.toString()) {%>
+                                <form action="/task/edit-task" method="POST">
+                                    <input type="hidden" value="<%= task._doc._id %>"name="id">
+                                    <input type="hidden" value="<%= csrfToken %>"name="_csrf">
+                                    <button class="btn" type="submit">Update</button>
+                                </form>
+                                <form action="/task/delete-task" method="POST">
+                                    <input type="hidden" value="<%= task._doc._id %>"name="id">
+                                    <input type="hidden" value="<%= csrfToken %>"name="_csrf">
+                                    <button class="btn" type="submit">Delete</button>
+                                </form>
+                            <% } %>
+                        </div>
+                    </form>
+                </section>
+            </main>
+            <%- include("../includes/footer.ejs")%>

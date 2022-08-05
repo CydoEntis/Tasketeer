@@ -1,0 +1,35 @@
+@import "../variables.css";
+
+.page__header {
+  margin: 0 auto;
+  width: 95%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.page__title {
+  font-size: 2.5rem;
+}
+
+.page__title,
+.page__greeting {
+  color: var(--black);
+  display: flex;
+  align-items: center;
+  text-transform: capitalize;
+}
+
+.page__greeting {
+  font-size: 2rem;
+}
+
+@media only screen and (max-width: 425px) {
+  .page__header h1 {
+    padding: .25rem .5rem;
+  }
+
+  .page__title {
+    font-size: 1.75rem;
+  }
+}

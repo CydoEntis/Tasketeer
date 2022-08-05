@@ -1,0 +1,78 @@
+<%- include("../includes/header.ejs")%>
+</head>
+<body>
+    <%- include("../includes/side-navigation.ejs")%>
+    <main class="content">
+        <section>
+            <h1 class="page__title">Dashboard</h1>   
+            <h2 class="page__greeting">Hello, <%= user.username %></h2>
+            <button class="hamburger">
+                <div class="bar"></div>
+            </button>
+            <div class="breakdown">
+                <a href="/dashboard/tasks/all">
+                    <div class="task__block task--all">
+                        <h3 class="task__block--title">Tasks</h3>
+                        <p class="task__block--count task-all--darkened"><%= tasks.length %></p>
+                        <div class="task__overlay overlay--all">
+                            <p class="overlay__text">View All</p>
+                        </div>
+                    </div>
+                </a>
+                <a href="/dashboard/tasks/all">
+                    <div class="task__block task--pending">
+                        <h3 class="task__block--title">Pending</h3>
+                        <p class="task__block--count task-pending--darkened"><%= pendingTasks %></p>
+                        <div class="task__overlay overlay--pending">
+                            <p class="overlay__text">View All</p>
+                        </div>
+                    </div>
+                </a>
+                <a href="/dashboard/tasks/all">
+                    <div class="task__block task--active">
+                        <h3 class="task__block--title">Active</h3>
+                        <p class="task__block--count task-active--darkened"><%= activeTasks %></p>
+                        <div class="task__overlay overlay--active">
+                            <p class="overlay__text">View All</p>
+                        </div>
+                    </div>
+                </a>
+                <a href="/dashboard/tasks/all">
+                    <div class="task__block task--on-hold">
+                        <h3 class="task__block--title">On Hold</h3>
+                        <p class="task__block--count task-on-hold--darkened"><%= onHoldTasks %></p>
+                        <div class="task__overlay overlay--on-hold">
+                            <p class="overlay__text">View All</p>
+                        </div>
+                    </div>
+                </a>
+                <a href="/dashboard/tasks/all">
+                    <div class="task__block task--in-review">
+                        <h3 class="task__block--title">In Review</h3>
+                        <p class="task__block--count task-in-review--darkened"><%= inReviewTasks %></p>
+                        <div class="task__overlay overlay--in-review">
+                            <p class="overlay__text">View All</p>
+                        </div>
+                    </div>
+                </a>
+                <a href="/dashboard/tasks/all">
+                    <div class="task__block task--complete">
+                        <h3 class="task__block--title">Completed</h3>
+                        <p class="task__block--count task-complete--darkened"><%= completedTasks %></p>
+                        <div class="task__overlay overlay--complete">
+                            <p class="overlay__text">View All</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="charts">
+                <div class="chart">
+                    <canvas id="lineChart"></canvas>
+                </div>
+                <!-- <div class="chart chart--small">
+                    <canvas id="pieChart"></canvas>
+                </div> -->
+            </div>
+        </section>
+    </main>
+<%- include("../includes/footer.ejs")%>

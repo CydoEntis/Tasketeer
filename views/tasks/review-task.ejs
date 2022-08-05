@@ -1,0 +1,64 @@
+<%- include("../includes/header.ejs")%>
+</head>
+<body>
+    <%- include("../includes/side-navigation.ejs")%>
+    <main class="wrapper">
+        <section class="container">
+            <h2 class="page-title"><a class="btn btn-back" href="/task/<%= task._doc._id %>"><i class='bx bx-arrow-back'></i></a> Edit Task</h2>
+            <i id="mobileNav" class='bx bx-menu hamburger'></i>
+            <form action="/edit-task" method="POST">
+
+                <div class="form__control">
+                    <label for="title">Title</label>
+                    <input type="text" value="<%= task._doc.title %>" id="title" name="title">
+                </div>
+                <div class="form__control">
+                    <label for="severity">Assign Severity</label>
+                    <select name="severity">
+                        <option value="urgent">Severe</option>
+                        <option value="moderate" >Moderate</option>
+                        <option value="minor" >Minor</option>
+                    </select>
+                </div>
+                <div class="form__control">
+                    <label for="user">Assign to</label>
+                    <select name="userInfo">
+                        <option>Select A User</option>
+                        <% for(let user of users) {%>
+                            <option value="<%= user.username %>+<%= user._id %>" for="userInfo"><%= user.username %></option>
+                        <% } %>
+                    </select>
+                </div>
+                <div class="form__control">
+                    <label for="description">Description</label>
+                    <textarea name="description"><%= task._doc.description %></textarea>
+                </div>
+                <div class="task-controls">
+                    <% if(isAdmin || isAuthenticated) { %>
+                        <!-- <div class="task-uploads">
+                            <form action="">
+                                <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+                                <input type="file" id="imgUpload" name="img" accept="image/*" hidden>
+                                <label class="btn" for="imgUpload">Select image:</label>
+                                <input class="btn" type="submit" value="Upload">
+                            </form>
+                        </div> -->
+                        <div class="task-submit">
+                            <% if(isAdmin) {%>
+                                    <% if(!task._doc.isOnHold && task._doc.assignedTo.userId) {%>
+                                        <button type="submit" class="btn btn__cta">Set On Hold</button>
+                                    <% } else { %>
+                                        <button type="submit" class="btn btn__cta">Process Ticket</button>
+                                    <% } %>
+                            <% } else { %>
+                                    <button type="submit" class="btn btn__cta">Submit Ticket</button>
+                            <% } %>
+                        </div>
+                    <% } %>
+                </div>
+                <input type="hidden" value="<%= task._doc._id %>" name="id">
+                <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+            </form>
+        </section>
+    </main>
+<%- include("../includes/footer.ejs")%>

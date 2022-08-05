@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap');
+
+
+:root {
+	--accent: #643FDB;
+	--bg-white: #F6F7FA;
+
+	--primary-font: "Poppins", sans-serif;
+
+	--bg-white: #F6F7FA;
+
+	--black: #333;
+	--white: #FFFFFF;
+	
+	--off-white: #F7F8FA;
+	--dark-grey: #a6a6a6;
+	--grey: #EDF0EF;
+	--orange: #E85a1e;
+	--yellow: #FDAB3D;
+	--red: #E44258;
+	--green: #00CA72;
+	--purple: #A358DF;
+	--light-blue: #61CAF7;
+	--blue: #3886BB;
+	--plum: #4D466B;
+	--gray: #414141;
+	
+	--white-darkened: #F0F1F3;
+	--orange-darkened: #8d3b17;
+	--yellow-darkened: #a66e2a;
+	--red-darkened: #942d3a;
+	--green-darkened: #027d48;
+	--purple-darkened: #563073;
+	--light-blue-darkened: #3d7085;
+	--blue-darkened: #23506c;
+	--dark-grey-darkened: #B2AEC2;
+	--gray-darkened: #2a2a2a;
+	/* --coconut-darkened: #ceccca; */
+
+	--orange-lightened: #ffc4ab;
+	--yellow-lightened: #ffd59f;
+	--red-lightened: #f7b1ba;
+	--green-lightened: #b6f9dc;
+	--purple-lightened: #d9affb;
+	--light-blue-lightened: #ace6ff;
+	--blue-lightened: #a0defd;
+	--off-white-lightened: #fffcf8;
+
+	--dark-secondary: #1e1e1e;
+	--light-secondary: #e8e8e8;
+
+	--ease-in-out: all 300ms ease-in-out;
+	--opacity-85: .85;
+	--box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
+	rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+	--radius: .4rem;
+
+	--dark-mode-primary: #101010;
+	--dark-mode-secondary: #151516;
+	--dark-mode-tertiary: #1d1c1d;
+}

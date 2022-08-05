@@ -1,0 +1,33 @@
+@import "../variables.css";
+
+.dark {
+	background: var(--dark-mode-secondary) !important;
+}
+
+.dark__bg--alt {
+	background: var(--dark-mode-tertiary) !important;
+	color: var(--white);
+}
+
+.dark__bg {
+	background: var(--dark-mode-primary) !important;
+	color: var(--white);
+}
+
+.dark__input {
+	border: 2px solid var(--dark-mode-primary) !important;
+	color: var(--white) !important;
+	background: var(--dark-mode-primary);
+}
+
+.dark__txt {
+	color: var(--white);
+}
+
+.dark__border--right {
+	border-right: 2px solid var(--dark-mode-tertiary) !important;
+}
+
+.dark__btn {
+	background: var(--dark-mode-primary);
+}

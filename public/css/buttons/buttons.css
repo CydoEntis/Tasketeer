@@ -1,0 +1,105 @@
+@import "../variables.css";
+
+.btn {
+	padding: 15px 25px;
+	background-color: var(--accent);
+	color: var(--white);
+	font-weight: bold;
+	text-decoration: none;
+	transition: ease-in-out 300ms all;
+	cursor: pointer;
+	outline: none;
+	border: none;
+	font-size: 1rem;
+	border-radius: var(--radius);;
+	box-shadow: var(--box-shadow);
+	margin: .5rem 0;
+}
+
+.btn:hover,
+.btn:focus {
+	opacity: var(--opacity-85);
+	transform: scale(1.02);
+}
+
+.btn-submit {
+	width: 100%;
+}
+
+.btn-mobile {
+	background-color: var(--accent);
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 50px;
+	height: 50px;
+	box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+
+	position: fixed;
+	bottom: 2%;
+	right: 3%;
+}
+
+.btn-desktop {
+	display: none;
+}
+
+.btn-mobile i {
+	color: var(--bg-light);
+	font-size: 1.5rem;
+}
+
+.btn-mobile:hover {
+	opacity: var(--opacity-85);;
+}
+
+.btn-logout {
+	display: block;
+	margin: 0 auto;
+}
+
+.btn-back {
+	font-size: 1.25rem;
+	padding: 5px 10px;
+	margin-right: 10px;
+}
+
+.admin-link {
+	color: var(--color-blue);
+	border: 1px solid var(--color-blue);
+	padding: 5px 10px;
+	transition: all ease-in-out 300ms;
+	cursor: pointer;
+}
+
+.admin-link:hover {
+	opacity: var(--opacity-85);;
+	color: var(--bg-light);
+	border: 1px solid var(--bg-light);
+	background: var(--color-blue);
+}
+
+.btn-dark {
+	background-color: #f5f5f5;
+	color: #333;
+}
+
+.btn-dark:hover {
+	background: var(--bg-light);
+	color: var(--txt-primary);
+}
+
+
+@media screen and (min-width: 1024px) {
+  .btn-mobile {
+		display: none;
+	}
+
+	.btn-desktop {
+		display: block;
+		position: fixed;
+		top: 1%;
+		right: 2%;
+	}
+}
