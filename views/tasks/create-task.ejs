@@ -6,7 +6,9 @@
     <main class="content">
         <section>
             <h1 class="page__title"><a class="btn btn-back" href="/tasks"><i class='bx bx-arrow-back'></i></a><%= pageTitle %></h1>
-            <i id="mobileNav" class='bx bx-menu hamburger'></i>
+            <button class="hamburger">
+                <div class="bar"></div>
+            </button>
             <% if(errorMessage) { %>
                 <div class="invalid"><%= errorMessage %></div>
             <% } %>

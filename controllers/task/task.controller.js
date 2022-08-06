@@ -22,9 +22,6 @@ async function getIndex(req, res, next) {
 
 	const todaysDate = new Date().getTime();
 	
-
-	
-	
 	const tasks = await Task.find({
 		$or: [
 			{ 'assignedTo.userId': ObjectId(req.user._id) },
@@ -96,11 +93,6 @@ async function getIndex(req, res, next) {
 		}
 	}
 
-
-
-	// console.log(activeTasks.length);
-	// console.log(formattedTasks.length);
-
 	res.render('tasks/tasks', {
 		tasks: {
 			allTasks: formattedTasks,
@@ -120,7 +112,6 @@ async function getIndex(req, res, next) {
 async function getTasks(req, res, next) {
 	const page = +req.query.page || 1;
 	
-	console.log(todaysDate);
 	const formattedTasks = [];
 	try {
 		const numTasks = await Task.find({

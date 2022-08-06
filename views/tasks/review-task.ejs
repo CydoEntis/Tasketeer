@@ -5,7 +5,9 @@
     <main class="wrapper">
         <section class="container">
             <h2 class="page-title"><a class="btn btn-back" href="/task/<%= task._doc._id %>"><i class='bx bx-arrow-back'></i></a> Edit Task</h2>
-            <i id="mobileNav" class='bx bx-menu hamburger'></i>
+            <button class="hamburger">
+                <div class="bar"></div>
+            </button>
             <form action="/edit-task" method="POST">
 
                 <div class="form__control">

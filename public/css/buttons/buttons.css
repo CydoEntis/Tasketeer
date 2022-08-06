@@ -19,7 +19,7 @@
 .btn:hover,
 .btn:focus {
 	opacity: var(--opacity-85);
-	transform: scale(1.02);
+	transform: scale(1.01);
 }
 
 .btn-submit {
