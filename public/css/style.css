@@ -112,31 +112,35 @@ body {
   border-radius: 0 .4rem .4rem 0;
 }
 .task--all {
-  background-color: var(--gray);
+  background-color: var(--blue);
 }
 
 .block--all {
-  background: var(--gray-darkened);
+  background: var(--blue-darkened);
 }
 
 .task--active {
-  background-color: var(--yellow);
+  background-color: var(--light-blue);
 }
 
 .block--active {
-  background: var(--yellow-darkened);
+  background: var(--light-blue-darkened);
 }
 
 .task--on-hold {
-  background-color: var(--red);
+  background-color: var(--yellow);
 }
 
 .block--hold {
-  background: var(--red-darkened);
+  background: var(--yellow-darkened);
 }
 
 .task--complete {
   background-color: var(--green);
+}
+
+.task--overdue {
+  background-color: var(--red);
 }
 
 .task--in-review {
@@ -144,23 +148,27 @@ body {
 }
 
 .task--pending {
-  background-color: var(--light-blue);
+  background-color: var(--gray);
 }
 
 .task-all--darkened {
-  background-color: var(--gray-darkened);
+  background-color: var(--blue-darkened);
 }
 
 .task-active--darkened {
-  background-color: var(--yellow-darkened);
+  background-color: var(--light-blue-darkened);
 }
 
 .task-on-hold--darkened {
-  background-color: var(--red-darkened);
+  background-color: var(--yellow-darkened);
 }
 
 .task-complete--darkened {
   background-color: var(--green-darkened);
+}
+
+.task-overdue--darkened {
+  background-color: var(--red-darkened);
 }
 
 .task-in-review--darkened {
@@ -168,7 +176,7 @@ body {
 }
 
 .task-pending--darkened {
-  background-color: var(--light-blue-darkened);
+  background-color: var(--gray-darkened);
 }
 
 .task__overlay {
@@ -185,15 +193,15 @@ body {
 }
 
 .overlay--all {
-  background-color: var(--gray);
+  background-color: var(--blue);
 }
 
 .overlay--active {
-  background-color: var(--yellow);
+  background-color: var(--light-blue);
 }
 
 .overlay--on-hold {
-  background-color: var(--red);
+  background-color: var(--yellow);
 }
 
 .overlay--complete {
@@ -205,7 +213,11 @@ body {
 }
 
 .overlay--pending {
-  background-color: var(--light-blue);
+  background-color: var(--gray);
+}
+
+.overlay--overdue {
+  background-color: var(--red);
 }
 
 .task__block:hover .task__overlay {
