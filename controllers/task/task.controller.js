@@ -443,6 +443,58 @@ async function getCompletedTasks(req, res, next) {
 	}
 }
 
+async function getOverdueTasks(req, res, next) {
+	const page = +req.query.page || 1;
+
+	const formattedTasks = [];
+	try {
+		const numTasks = await Task.find({
+			status: 'overdue',
+			'assignedTo.userId': ObjectId(req.user._id),
+		}).countDocuments();
+
+		const tasks = await Task.find({
+			status: 'overdue',
+			'assignedTo.userId': ObjectId(req.user._id),
+		})
+			.sort({
+				createdAt: -1,
+			})
+			.skip((page - 1) * TASKS_PER_PAGE)
+			.limit(TASKS_PER_PAGE);
+
+		for (let task of tasks) {
+			const formattedDate = formatDate(task.createdAt);
+			const dueDate = formatDate(task.dueDate);
+			let formattedDesc = task.description.substring(0, 50);
+			if (formattedDesc.length >= 50) {
+				formattedDesc += '...';
+			}
+			const formattedTask = {
+				...task,
+				createdAt: formattedDate,
+				dueDate: dueDate,
+				description: formattedDesc,
+			};
+			formattedTasks.push(formattedTask);
+		}
+		res.render('tasks/tasks-view', {
+			tasks: formattedTasks,
+			title: 'Overdue',
+			userId: req.user._id,
+			activePage: '/tasks',
+			currentPage: page,
+			hasNextPage: TASKS_PER_PAGE * page < numTasks,
+			hasPrevPage: page > 1,
+			nextPage: page + 1,
+			prevPage: page - 1,
+			lastPage: Math.ceil(numTasks / TASKS_PER_PAGE),
+		});
+	} catch (err) {
+		next(err);
+	}
+}
+
 async function getTask(req, res, next) {
 	const taskId = req.params.id;
 	const task = await Task.findById(taskId);
@@ -903,5 +955,6 @@ module.exports = {
 	postDeleteImage,
 	getHighTasks,
 	getMediumTasks,
-	getLowTasks
+	getLowTasks,
+	getOverdueTasks,
 };

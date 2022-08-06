@@ -18,6 +18,7 @@ taskRoutes.get('/tasks/completed', taskController.getCompletedTasks);
 taskRoutes.get('/tasks/high', taskController.getHighTasks);
 taskRoutes.get('/tasks/medium', taskController.getMediumTasks);
 taskRoutes.get('/tasks/low', taskController.getLowTasks);
+taskRoutes.get('/tasks/overdue', taskController.getOverdueTasks);
 
 taskRoutes.get('/tasks/create-task', taskController.getCreateTask);
 taskRoutes.post(

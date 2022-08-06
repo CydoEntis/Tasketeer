@@ -99,7 +99,7 @@
 	color: var(--green);
 }
 
-.task__view--overdue {
+.tasks__view--overdue {
 	color: var(--red);
 }
 
