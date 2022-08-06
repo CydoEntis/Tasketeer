@@ -12,6 +12,7 @@ async function getDashboard(req, res, next) {
 	let onHoldTasks = 0;
 	let inReviewTasks = 0;
 	let completedTasks = 0;
+	let overdueTasks = 0;
 
 	const tasks = await Task.find({ assingedTo: req.user._id });
 
@@ -26,6 +27,8 @@ async function getDashboard(req, res, next) {
 			pendingTasks += 1;
 		} else if (task.status === 'reviewing') {
 			inReviewTasks += 1;
+		} else if (task.status === 'overdue') {
+			overdueTasks += 1;
 		}
 	}
 
@@ -37,6 +40,7 @@ async function getDashboard(req, res, next) {
 		completedTasks: completedTasks,
 		pendingTasks: pendingTasks,
 		inReviewTasks: inReviewTasks,
+		overdueTasks: overdueTasks,
 		activePage: '/dashboard',
 	});
 }
