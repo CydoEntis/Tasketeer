@@ -36,9 +36,6 @@ const filter = document.querySelector('.filter');
 
 const darkModeOn = () => {
 	body.classList.add('dark');
-	desktopNav.classList.add('dark__bg');
-	mobileNav.classList.add('dark__bg');
-	filter.classList.add('dark__txt');
 	// for(let auth of authContainer) {
 	//   auth.classList.add("dark__bg");
 	// }
@@ -114,13 +111,15 @@ const darkModeOn = () => {
 	if (table) {
 		table.classList.add('admin__table-dark');
 	}
+
+  desktopNav.classList.add('dark__bg');
+	mobileNav.classList.add('dark__bg');
+	filter.classList.add('dark__txt');
 };
 
 const darkModeOff = () => {
 	body.classList.remove('dark');
-	desktopNav.classList.remove('dark__bg');
-	mobileNav.classList.remove('dark__bg');
-	filter.classList.remove('dark__txt');
+
 
 	for (let viewAllTask of viewAllTasksBtns) {
 		viewAllTask.classList.remove('dark__txt');
@@ -192,6 +191,10 @@ const darkModeOff = () => {
 	if (table) {
 		table.classList.remove('admin__table-dark');
 	}
+
+  desktopNav.classList.remove('dark__bg');
+	mobileNav.classList.remove('dark__bg');
+	filter.classList.remove('dark__txt');
 };
 
 window.onload = function () {
