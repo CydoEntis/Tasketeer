@@ -1,6 +1,7 @@
 const body = document.getElementsByTagName('body')[0];
 const h3 = document.getElementsByTagName('h3');
 const darkModeBtn = document.getElementById('darkMode');
+const darkModeBtnMbl = document.getElementById('darkModeMbl');
 const desktopNav = document.querySelector('.nav__desktop');
 const mobileNav = document.querySelector('.nav__mobile');
 const inputs = document.getElementsByTagName('input');
@@ -208,6 +209,7 @@ window.onload = function () {
 
 darkModeBtn.addEventListener('click', () => {
 	const isDarkMode = JSON.parse(localStorage.getItem('darkMode'));
+	console.log("clicked");
 	if (isDarkMode) {
 		localStorage.setItem('darkMode', false);
 		darkModeOff();
@@ -216,5 +218,19 @@ darkModeBtn.addEventListener('click', () => {
 		localStorage.setItem('darkMode', true);
 		darkModeOn();
 		darkModeBtn.innerHTML = "<i class='bx bx-sun' ></i>";
+	}
+});
+
+darkModeBtnMbl.addEventListener('touchstart', () => {
+	const isDarkMode = JSON.parse(localStorage.getItem('darkMode'));
+	console.log("clicked");
+	if (isDarkMode) {
+		localStorage.setItem('darkMode', false);
+		darkModeOff();
+		darkModeBtnMbl.innerHTML = "<i class='bx bx-moon' ></i>";
+	} else {
+		localStorage.setItem('darkMode', true);
+		darkModeOn();
+		darkModeBtnMbl.innerHTML = "<i class='bx bx-sun' ></i>";
 	}
 });
