@@ -733,7 +733,7 @@ async function getHighTasks(req, res, next) {
 		}
 		res.render('tasks/tasks-view', {
 			tasks: formattedTasks,
-			title: 'Completed',
+			title: 'High',
 			userId: req.user._id,
 			activePage: '/tasks',
 			currentPage: page,
@@ -787,7 +787,7 @@ async function getMediumTasks(req, res, next) {
 		}
 		res.render('tasks/tasks-view', {
 			tasks: formattedTasks,
-			title: 'Completed',
+			title: 'Medium',
 			userId: req.user._id,
 			activePage: '/tasks',
 			currentPage: page,
@@ -841,7 +841,7 @@ async function getLowTasks(req, res, next) {
 		}
 		res.render('tasks/tasks-view', {
 			tasks: formattedTasks,
-			title: 'Completed',
+			title: 'Low',
 			userId: req.user._id,
 			activePage: '/tasks',
 			currentPage: page,
