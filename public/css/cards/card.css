@@ -25,6 +25,7 @@
 	width: 100px;
 	border-right: 2px solid var(--grey);
 	border-radius: var(--radius) 0 0 var(--radius) ;
+	padding: .5rem;
 }
 
 .card__due-date i {

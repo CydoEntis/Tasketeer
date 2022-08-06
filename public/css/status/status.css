@@ -1,21 +1,25 @@
 @import "../variables.css";
 
 .status--pending {
-	color: var(--light-blue)
+	color: var(--gray);
 }
 
 .status--active {
-	color: var(--yellow)
+	color: var(--light-blue);
 }
 
 .status--hold {
-	color: var(--red)
+	color: var(--yellow);
 }
 
 .status--reviewing {
-	color: var(--purple)
+	color: var(--purple);
 }
 
 .status--complete {
-	color: var(--green)
+	color: var(--green);
+}
+
+.status--overdue {
+	color: var(--red);
 }

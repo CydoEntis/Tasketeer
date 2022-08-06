@@ -76,19 +76,19 @@
 }
 
 .tasks__view--all {
-	color: var(--black);
+	color: var(--blue);
 }
 
 .tasks__view--pending {
-	color: var(--light-blue);
+	color: var(--gray);
 }
 
 .tasks__view--active {
-	color: var(--yellow);
+	color: var(--light-blue);
 }
 
 .tasks__view--hold {
-	color: var(--red);
+	color: var(--yellow);
 }
 
 .tasks__view--reviewing {
@@ -97,6 +97,10 @@
 
 .tasks__view--complete {
 	color: var(--green);
+}
+
+.task__view--overdue {
+	color: var(--red);
 }
 
 .tasks__not-found {

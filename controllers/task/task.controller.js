@@ -18,24 +18,43 @@ async function getIndex(req, res, next) {
 	const onHoldTasks = [];
 	const inReviewTasks = [];
 	const completedTasks = [];
+	const overdueTasks = [];
 
+	const todaysDate = new Date().getTime();
+	
+
+	
+	
 	const tasks = await Task.find({
 		$or: [
 			{ 'assignedTo.userId': ObjectId(req.user._id) },
 			{ 'createdBy.userId': ObjectId(req.user._id) },
 		],
 	}).sort({ createdAt: -1 });
-
+	
 	let count = 0;
 	let activeCount = 0;
 	let pendingCount = 0;
 	let holdCount = 0;
 	let reviewCount = 0;
 	let completedCount = 0;
+	let overdueCount = 0;
+
 
 	for (let task of tasks) {
-		const createdAtDate = formatDate(task.createdAt);
+		let isOverDue;
+		const convertedDueDate = new Date(task.dueDate).getTime();
+
+		if(todaysDate > convertedDueDate) {
+			const currTask = await Task.findById(task._id);
+			currTask.status = 'overdue';
+			await currTask.save();
+		} 
+	
+		
 		const dueDate = formatDate(task.dueDate);
+		const createdAtDate = formatDate(task.createdAt);
+		
 		const shortDesc = shorten(task.description);
 
 		let formattedTask = {
@@ -43,34 +62,44 @@ async function getIndex(req, res, next) {
 			createdAtDate,
 			shortDesc,
 			dueDate,
+			isOverDue,
 		};
 
-			console.log(req.user._id.toString() === task.assignedTo.userId.toString());
-		if (task.status === 'pending' && task.createdBy.userId.toString() === req.user._id.toString() && pendingCount < 4) {
-			pendingTasks.push(formattedTask);
-			pendingCount++;
-		} else if (task.status === 'active' && task.assignedTo.userId.toString() === req.user._id.toString() && activeCount < 4) {
-			activeTasks.push(formattedTask);
-			activeCount++;
-		} else if (task.status === 'hold' && task.assignedTo.userId.toString() === req.user._id.toString() && holdCount < 4) {
-			onHoldTasks.push(formattedTask);
-			holdCount++;
-		} else if (task.status === 'reviewing' && task.assignedTo.userId.toString() === req.user._id.toString() && reviewCount < 4) {
-			inReviewTasks.push(formattedTask);
-			reviewCount++;
-		} else if (task.status === 'complete' && task.assignedTo.userId.toString() === req.user._id.toString() && completedCount < 4) {
-			completedTasks.push(formattedTask);
-			completedCount++;
-		}
 		
-		if(task.assignedTo.userId.toString() === req.user._id.toString() && count < 4) {
-			formattedTasks.push(formattedTask);
-			count++;
+
+			// console.log(req.user._id.toString() === task.assignedTo.userId.toString());
+		if(task.assignedTo.userId !== undefined) {
+			if (task.status === 'pending' && task.createdBy.userId.toString() === req.user._id.toString() && pendingCount < 4) {
+				pendingTasks.push(formattedTask);
+				pendingCount++;
+			} else if (task.status === 'active' && task.assignedTo.userId.toString() === req.user._id.toString() && activeCount < 4) {
+				activeTasks.push(formattedTask);
+				activeCount++;
+			} else if (task.status === 'hold' && task.assignedTo.userId.toString() === req.user._id.toString() && holdCount < 4) {
+				onHoldTasks.push(formattedTask);
+				holdCount++;
+			} else if (task.status === 'reviewing' && task.assignedTo.userId.toString() === req.user._id.toString() && reviewCount < 4) {
+				inReviewTasks.push(formattedTask);
+				reviewCount++;
+			} else if (task.status === 'complete' && task.assignedTo.userId.toString() === req.user._id.toString() && completedCount < 4) {
+				completedTasks.push(formattedTask);
+				completedCount++;
+			} else if (task.status === 'overdue' && task.assignedTo.userId.toString() === req.user._id.toString() && overdueCount < 4) {
+				overdueTasks.push(formattedTask);
+				overdueCount++;
+			}
+			
+			if(task.assignedTo.userId.toString() === req.user._id.toString() && count < 4) {
+				formattedTasks.push(formattedTask);
+				count++;
+			}
 		}
 	}
 
-	console.log(activeTasks);
-	console.log(formattedTasks);
+
+
+	// console.log(activeTasks.length);
+	// console.log(formattedTasks.length);
 
 	res.render('tasks/tasks', {
 		tasks: {
@@ -80,6 +109,7 @@ async function getIndex(req, res, next) {
 			onHoldTasks: onHoldTasks,
 			inReviewTasks: inReviewTasks,
 			completedTasks: completedTasks,
+			overdueTasks: overdueTasks
 		},
 		title: 'Tasks',
 		userId: req.user._id,
@@ -89,7 +119,8 @@ async function getIndex(req, res, next) {
 
 async function getTasks(req, res, next) {
 	const page = +req.query.page || 1;
-
+	
+	console.log(todaysDate);
 	const formattedTasks = [];
 	try {
 		const numTasks = await Task.find({
@@ -105,6 +136,9 @@ async function getTasks(req, res, next) {
 
 		for (let task of tasks) {
 			const formattedDate = formatDate(task.createdAt);
+
+			// if(task.dueDate > )
+
 			const dueDate = formatDate(task.dueDate);
 			let formattedDesc = task.description.substring(0, 50);
 			if (formattedDesc.length >= 50) {

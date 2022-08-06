@@ -302,6 +302,52 @@
                         <% } %>
                     </div>
                 </div>
+                <div class="task__category category__body--complete">
+                    <div class="task__category--header">
+                        <h2 class="task__category--title"><i class='icon--overdue bx bx-calendar' ></i> Overdue</h2>
+                    </div>
+                    <div class="task__category--body">
+                        <% if(tasks.completedTasks.length > 0) { %>
+                            <% for(let task of tasks.completedTasks) { %>
+                                <a class="card__link" href="/task/<%= task._doc._id %>">
+                                    <div class="card">
+                                        <div class="card__due-date status--<%= task._doc.status %>">
+                                            <p class="time--<%= task._doc.status %>">Due</p>
+                                            <i class='icon--<%= task._doc.status %> bx bxs-calendar'></i>
+                                            <p class="time--<%= task._doc.status %>"><%= task.dueDate %></p>
+                                        </div>
+                                        <div class="card__details">
+                                            <div class="card__header">
+                                                <div class="task__header--section">
+                                                    <h3 class="card__title"><%= task._doc.title %></h3>
+                                                    <div class="task__header--section">
+                                                        <span class="badge badge--<%= task._doc.priority %>"><%= task._doc.priority %></span>
+                                                    </div>
+                                                </div>
+                                                <!-- <div class="card__options"><i class='bx bx-dots-horizontal-rounded' ></i></div> -->
+                                            </div>
+                                            <div class="card__body">
+                                                <div class="card__grouping">
+                                                    <div class="card__comments">
+                                                        <p class="task__comment--count"><%= task._doc.commentCount %></p>
+                                                        <i class='task__comment--icon bx bx-comment'></i>
+                                                    </div>
+                                                    <p class="card__date">Created: <%= task.createdAtDate %></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            <% } %>
+                        <a href="/tasks/overdue" class="tasks__view tasks__view--overdue">View All</a>
+                        <% } else { %>
+                            <div class="tasks__not-found--small">
+                                <i class='icon__error--small bx bx-error-circle'></i>
+                                <h3 class="not-found__message--small">You don't have any tasks yet!</h3>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
             </div>
         <% } else { %>
             <div class="tasks__not-found">
@@ -311,5 +357,3 @@
         <% } %>
     </main>
     <%- include("../includes/footer.ejs")%>
-
-   

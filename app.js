@@ -1,6 +1,6 @@
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
-// const dotenv = require('dotenv').config({path: __dirname + '/.env'})
 
 const mongoose = require('mongoose');
 const session = require('express-session');
@@ -19,7 +19,7 @@ const adminRoutes = require('./routes/admin.routes');
 const commentRoutes = require('./routes/comment.routes');
 const projectRoutes = require('./routes/project.routes');
 
-const MONGODB_URI = `mongodb+srv://admin:testpassword123@tasketeer.pskrnao.mongodb.net/?retryWrites=true&w=majority`
+const MONGODB_URI = process.env.APP_URI;
 	
 
 const app = express();

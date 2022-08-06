@@ -1,19 +1,19 @@
 @import "../variables.css";
 
 .icon--all {
-	color: var(--black);
+	color: var(--blue);
 }
 
 .icon--active {
-	color: var(--yellow);
-}
-
-.icon--pending {
 	color: var(--light-blue);
 }
 
+.icon--pending {
+	color: var(--gray);
+}
+
 .icon--hold {
-	color: var(--red);
+	color: var(--yellow);
 }
 
 .icon--reviewing {
@@ -22,6 +22,10 @@
 
 .icon--completed {
 	color: var(--green);
+}
+
+.icon--overdue {
+	color: var(--red);
 }
 
 .icon__mobile,

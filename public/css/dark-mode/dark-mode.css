@@ -1,16 +1,16 @@
 @import "../variables.css";
 
 .dark {
-	background: var(--dark-mode-secondary) !important;
+	background: var(--dark-mode-secondary);
 }
 
 .dark__bg--alt {
-	background: var(--dark-mode-tertiary) !important;
+	background: var(--dark-mode-tertiary);
 	color: var(--white);
 }
 
 .dark__bg {
-	background: var(--dark-mode-primary) !important;
+	background: var(--dark-mode-primary);
 	color: var(--white);
 }
 
@@ -25,7 +25,7 @@
 }
 
 .dark__border--right {
-	border-right: 2px solid var(--dark-mode-tertiary) !important;
+	border-right: 2px solid var(--dark-mode-tertiary);
 }
 
 .dark__btn {
