@@ -27,6 +27,12 @@ async function getIndex(req, res, next) {
 	}).sort({ createdAt: -1 });
 
 	let count = 0;
+	let activeCount = 0;
+	let pendingCount = 0;
+	let holdCount = 0;
+	let reviewCount = 0;
+	let completedCount = 0;
+
 	for (let task of tasks) {
 		const createdAtDate = formatDate(task.createdAt);
 		const dueDate = formatDate(task.dueDate);
@@ -39,23 +45,33 @@ async function getIndex(req, res, next) {
 			dueDate,
 		};
 
-		if (task.status === 'pending') {
+			console.log(req.user._id.toString() === task.assignedTo.userId.toString());
+		if (task.status === 'pending' && task.createdBy.userId.toString() === req.user._id.toString() && pendingCount < 4) {
 			pendingTasks.push(formattedTask);
-		} else if (task.status === 'active') {
+			pendingCount++;
+		} else if (task.status === 'active' && task.assignedTo.userId.toString() === req.user._id.toString() && activeCount < 4) {
 			activeTasks.push(formattedTask);
-		} else if (task.status === 'hold') {
+			activeCount++;
+		} else if (task.status === 'hold' && task.assignedTo.userId.toString() === req.user._id.toString() && holdCount < 4) {
 			onHoldTasks.push(formattedTask);
-		} else if (task.status === 'reviewing') {
+			holdCount++;
+		} else if (task.status === 'reviewing' && task.assignedTo.userId.toString() === req.user._id.toString() && reviewCount < 4) {
 			inReviewTasks.push(formattedTask);
-		} else if (task.status === 'complete') {
+			reviewCount++;
+		} else if (task.status === 'complete' && task.assignedTo.userId.toString() === req.user._id.toString() && completedCount < 4) {
 			completedTasks.push(formattedTask);
+			completedCount++;
 		}
-
-		if (count <= 4) {
+		
+		if(task.assignedTo.userId.toString() === req.user._id.toString() && count < 4) {
 			formattedTasks.push(formattedTask);
+			count++;
 		}
-		count++;
 	}
+
+	console.log(activeTasks);
+	console.log(formattedTasks);
+
 	res.render('tasks/tasks', {
 		tasks: {
 			allTasks: formattedTasks,
@@ -676,6 +692,170 @@ async function postDeleteImage(req, res, next) {
 		.catch((err) => console.error(err));
 }
 
+async function getHighTasks(req, res, next) {
+	const page = +req.query.page || 1;
+
+	const formattedTasks = [];
+	try {
+		const numTasks = await Task.find({
+			status: 'active',
+			priority: 'high',
+			'assignedTo.userId': ObjectId(req.user._id),
+		}).countDocuments();
+
+		const tasks = await Task.find({
+			status: 'active',
+			priority: 'high',
+			'assignedTo.userId': ObjectId(req.user._id),
+		})
+			.sort({
+				createdAt: -1,
+			})
+			.skip((page - 1) * TASKS_PER_PAGE)
+			.limit(TASKS_PER_PAGE);
+
+			console.log(tasks);
+
+		for (let task of tasks) {
+			const formattedDate = formatDate(task.createdAt);
+			const dueDate = formatDate(task.dueDate);
+			let formattedDesc = task.description.substring(0, 50);
+			if (formattedDesc.length >= 50) {
+				formattedDesc += '...';
+			}
+			const formattedTask = {
+				...task,
+				createdAt: formattedDate,
+				dueDate: dueDate,
+				description: formattedDesc,
+			};
+			formattedTasks.push(formattedTask);
+		}
+		res.render('tasks/tasks-view', {
+			tasks: formattedTasks,
+			title: 'Completed',
+			userId: req.user._id,
+			activePage: '/tasks',
+			currentPage: page,
+			hasNextPage: TASKS_PER_PAGE * page < numTasks,
+			hasPrevPage: page > 1,
+			nextPage: page + 1,
+			prevPage: page - 1,
+			lastPage: Math.ceil(numTasks / TASKS_PER_PAGE),
+		});
+	} catch (err) {
+		next(err);
+	}
+}
+
+async function getMediumTasks(req, res, next) {
+	const page = +req.query.page || 1;
+
+	const formattedTasks = [];
+	try {
+		const numTasks = await Task.find({
+			status: 'active',
+			'assignedTo.userId': ObjectId(req.user._id),
+			priority: 'medium',
+		}).countDocuments();
+
+		const tasks = await Task.find({
+			status: 'active',
+			'assignedTo.userId': ObjectId(req.user._id),
+			priority: 'medium',
+		})
+			.sort({
+				createdAt: -1,
+			})
+			.skip((page - 1) * TASKS_PER_PAGE)
+			.limit(TASKS_PER_PAGE);
+
+		for (let task of tasks) {
+			const formattedDate = formatDate(task.createdAt);
+			const dueDate = formatDate(task.dueDate);
+			let formattedDesc = task.description.substring(0, 50);
+			if (formattedDesc.length >= 50) {
+				formattedDesc += '...';
+			}
+			const formattedTask = {
+				...task,
+				createdAt: formattedDate,
+				dueDate: dueDate,
+				description: formattedDesc,
+			};
+			formattedTasks.push(formattedTask);
+		}
+		res.render('tasks/tasks-view', {
+			tasks: formattedTasks,
+			title: 'Completed',
+			userId: req.user._id,
+			activePage: '/tasks',
+			currentPage: page,
+			hasNextPage: TASKS_PER_PAGE * page < numTasks,
+			hasPrevPage: page > 1,
+			nextPage: page + 1,
+			prevPage: page - 1,
+			lastPage: Math.ceil(numTasks / TASKS_PER_PAGE),
+		});
+	} catch (err) {
+		next(err);
+	}
+}
+
+async function getLowTasks(req, res, next) {
+	const page = +req.query.page || 1;
+
+	const formattedTasks = [];
+	try {
+		const numTasks = await Task.find({
+			status: 'active',
+			'assignedTo.userId': ObjectId(req.user._id),
+			priority: 'low',
+		}).countDocuments();
+
+		const tasks = await Task.find({
+			status: 'active',
+			'assignedTo.userId': ObjectId(req.user._id),
+			priority: 'low',
+		})
+			.sort({
+				createdAt: -1,
+			})
+			.skip((page - 1) * TASKS_PER_PAGE)
+			.limit(TASKS_PER_PAGE);
+
+		for (let task of tasks) {
+			const formattedDate = formatDate(task.createdAt);
+			const dueDate = formatDate(task.dueDate);
+			let formattedDesc = task.description.substring(0, 50);
+			if (formattedDesc.length >= 50) {
+				formattedDesc += '...';
+			}
+			const formattedTask = {
+				...task,
+				createdAt: formattedDate,
+				dueDate: dueDate,
+				description: formattedDesc,
+			};
+			formattedTasks.push(formattedTask);
+		}
+		res.render('tasks/tasks-view', {
+			tasks: formattedTasks,
+			title: 'Completed',
+			userId: req.user._id,
+			activePage: '/tasks',
+			currentPage: page,
+			hasNextPage: TASKS_PER_PAGE * page < numTasks,
+			hasPrevPage: page > 1,
+			nextPage: page + 1,
+			prevPage: page - 1,
+			lastPage: Math.ceil(numTasks / TASKS_PER_PAGE),
+		});
+	} catch (err) {
+		next(err);
+	}
+}
+
 module.exports = {
 	getIndex,
 	getTasks,
@@ -696,4 +876,7 @@ module.exports = {
 	postCompleteTask,
 	postTaskForReview,
 	postDeleteImage,
+	getHighTasks,
+	getMediumTasks,
+	getLowTasks
 };

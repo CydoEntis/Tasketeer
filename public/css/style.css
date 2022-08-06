@@ -228,7 +228,16 @@ body {
   white-space: nowrap;
 }
 
+.filter {
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+  width: 95%;
+}
 
+.filter a {
+  margin: 0 .25rem;
+}
 
 
 

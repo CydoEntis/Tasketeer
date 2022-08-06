@@ -235,7 +235,7 @@ async function getAdminEditTask(req, res, next) {
 	let foundTask = {};
 	try {
 		const task = await Task.findById(taskId);
-		const users = await User.find({ role: 'user' });
+		const users = await User.find();
 		const formattedDate = formatDate(task.createdAt);
 
 		foundTask = {

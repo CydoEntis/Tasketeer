@@ -15,6 +15,9 @@ taskRoutes.get('/tasks/active', taskController.getActiveTasks);
 taskRoutes.get('/tasks/on-hold', taskController.getOnHoldTasks);
 taskRoutes.get('/tasks/in-review', taskController.getInReviewTasks);
 taskRoutes.get('/tasks/completed', taskController.getCompletedTasks);
+taskRoutes.get('/tasks/high', taskController.getHighTasks);
+taskRoutes.get('/tasks/medium', taskController.getMediumTasks);
+taskRoutes.get('/tasks/low', taskController.getLowTasks);
 
 taskRoutes.get('/tasks/create-task', taskController.getCreateTask);
 taskRoutes.post(
@@ -58,5 +61,7 @@ taskController.postUserEditTask);
 taskRoutes.post('/task/delete-task', taskController.postDeleteTask);
 
 taskRoutes.post("/delete-image", taskController.postDeleteImage);
+
+
 
 module.exports = taskRoutes;

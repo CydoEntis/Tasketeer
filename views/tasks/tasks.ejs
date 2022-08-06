@@ -18,6 +18,12 @@
                 <a href="/tasks/create-task" class="btn">Create Task</a>
             </div>
         </div>
+        <div class="filter">
+            <p class="">Filter: </p>
+            <a href="/tasks/high" class="badge badge--high">High</a>
+            <a href="/tasks/medium"  class="badge badge--medium">Medium</a>
+            <a href="/tasks/low"  class="badge badge--low">Low</a>
+        </div>
         <% if(tasks.allTasks.length > 0) { %>
             <div class="task__categories">
                 <div class="task__category category__body--all">
