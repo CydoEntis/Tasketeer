@@ -103,10 +103,19 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
         var socket = io();
-        const post = document.getElementById("postComment");
-        post.addEventListener("click", () => {
-            console.log("CLicked post");
-            socket.emit('comments', 1);
-        })
+        const postComment = document.getElementById("postComment");
+        const delCommentBtns = document.querySelectorAll(".comment--delete");
+
+        postComment.addEventListener("click", () => {
+            socket.emit('comments');
+        });
+
+        for (let btn of delCommentBtns) {
+            btn.addEventListener("click", () => {
+                console.log("clicked");
+                socket.emit('comments');
+            });
+        }
+
     </script>
     <%- include("../includes/footer.ejs")%>

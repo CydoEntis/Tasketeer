@@ -35,15 +35,35 @@ async function postComment(req, res, next) {
 
 }
 
-function postDeleteComment(req, res, next) {
+async function postDeleteComment(req, res, next) {
 	const commentId = req.body.commentId;
 	const taskId = req.body.taskId;
 
-	Comment.deleteOne({ _id: commentId })
-		.then(() => {
-			res.redirect('/task/' + taskId);
-		})
-		.catch((err) => console.error(err));
+	try {
+		const comment = await Comment.deleteOne({ _id: commentId })
+		const task = await Task.findById(taskId)
+
+		if(task.commentCount === 0) {
+			task.commentCount = 0;
+		} else {
+			task.commentCount -= 1;
+		}
+
+		await task.save();
+
+		console.log(comment);
+		console.log(task);
+
+		io.getIO().emit('comments', {
+			action: 'delete',
+			comment: comment,
+			task: task,
+		});
+
+		res.redirect('/task/' + taskId);
+	} catch(err) {
+		console.error(err)
+	}
 }
 
 

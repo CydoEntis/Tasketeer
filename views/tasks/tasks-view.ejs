@@ -54,7 +54,7 @@
                                                 <div class="card__body">
                                                     <div class="card__grouping">
                                                         <div class="card__comments">
-                                                            <p class="task__comment--count"><%= task._doc.commentCount %></p>
+                                                            <p class="id-<%= task._doc._id %> task__comment--count"><%= task._doc.commentCount %></p>
                                                             <i class='task__comment--icon bx bx-comment'></i>
                                                         </div>
                                                         <p class="card__date">Created: <%= task.createdAtDate %></p>
@@ -76,6 +76,35 @@
                 <% } %>
         </section>
     </main>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const taskLinks = document.querySelectorAll(".card__link");
+        var socket = io();
+        socket.on('comments', data => {
+            if(data.action === 'create') {
+                for(let task of taskLinks) {
+                    let href = task.getAttribute("href").split("/task/")[1];
+                    if(data.comment.taskId === href) {
+                        
+                        const taskComments = document.querySelectorAll(`.id-${href}`);
+                        for(let taskComment of taskComments) {
+                            taskComment.innerText = data.task.commentCount;
+                        }
+                    }
+                }
+            } else if (data.action === 'delete') {
+                for(let task of taskLinks) {
+                    let href = task.getAttribute("href").split("/task/")[1];
+                    if(data.task._id === href) {
+                        const taskComments = document.querySelectorAll(`.id-${href}`);
+                        for(let taskComment of taskComments) {
+                            taskComment.innerText = data.task.commentCount;
+                        }
+                    }
+                }
+            }
+        })
+    </script>
     <%- include("../includes/footer.ejs")%>
 
    
