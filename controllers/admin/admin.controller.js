@@ -1,10 +1,11 @@
 const Task = require('../../models/task/task.model');
 const User = require('../../models/user/user.model');
 const Image = require('../../models/image/image.model');
+const io = require('../../socket');
 
 const { formatDate } = require('../../utils/util');
 
-const TASKS_PER_PAGE = 2;
+const TASKS_PER_PAGE = 15;
 
 async function getAdminPanel(req, res, next) {
 	const page = +req.query.page || 1;
@@ -25,6 +26,7 @@ async function getAdminPanel(req, res, next) {
 		};
 		formattedTasks.push(formattedTask);
 	}
+
 
 	res.render('admin/admin-panel', {
 		tasks: formattedTasks,

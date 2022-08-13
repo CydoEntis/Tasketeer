@@ -23,7 +23,7 @@
                             <h3 class="not-found__message">You don't have any tasks yet!</h3>
                         </div>
                     <% } else { %>
-                        <tr>
+                        <tr class="table--header">
                             <th>Submitted On</th>
                             <th>Title</th>
                             <th>Submitted By</th>
@@ -59,4 +59,85 @@
                 <% } %>
         </section>
     </main>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        function formatDate(date) {
+            const months = [
+                'January',
+                'February',
+                'March',
+                'April',
+                'May',
+                'June',
+                'July',
+                'August',
+                'September',
+                'October',
+                'November',
+                'December',
+            ];
+
+            const currDate = new Date(date);
+            let month = months[currDate.getMonth()];
+            let year = currDate.getFullYear();
+            let day = currDate.getDate();
+            return `${month} ${day}, ${year}`;
+        }
+
+        const taskLinks = document.querySelectorAll(".card__link");
+        var socket = io();
+        socket.on('tasks', data => {
+            if(data.action === "create") {
+                const tableHeader = document.querySelector(".table--header");
+                const row = document.createElement("tr");
+                const createdAt = document.createElement("td");
+                const title = document.createElement("td");
+                const username = document.createElement("td");
+                const assignedTo = document.createElement("td");
+                const status = document.createElement("td");
+                const assign = document.createElement("td");
+                const view = document.createElement("td");
+                const assignLink = document.createElement("a");
+                const viewLink = document.createElement("a");
+                const statusBadge = document.createElement("span");
+                const assignedBadge = document.createElement("span");
+
+                createdAt.innerText = formatDate(data.task.createdAt);
+                title.innerText = data.task.title;
+                username.innerText = data.task.createdBy.username;
+
+                assignedBadge.innerText = "pending"
+                assignedBadge.classList.add("badge");
+                assignedBadge.classList.add("badge--pending");
+                assignedTo.append(assignedBadge);
+
+                statusBadge.innerText = data.task.status;
+                statusBadge.classList.add("badge");
+                statusBadge.classList.add("badge--pending");
+                status.append(statusBadge);
+
+                assignLink.innerText = "Assign";
+                viewLink.innerText = "View";
+
+                assignLink.setAttribute("href", "/admin/admin-edit/" + data.task._id);
+                viewLink.setAttribute("href", "/task/" + data.task._id);
+
+                assignLink.classList.add("btn--table");
+                viewLink.classList.add("btn--table");
+
+                assign.append(assignLink);
+                view.append(viewLink);
+
+                row.append(createdAt);
+                row.append(title);
+                row.append(username);
+                row.append(assignedTo);
+                row.append(status);
+                row.append(assign);
+                row.append(view);
+
+                tableHeader.after(row);
+            }
+        })
+    </script>
 <%- include("../includes/footer.ejs")%>`
