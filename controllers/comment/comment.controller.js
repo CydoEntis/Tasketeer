@@ -1,5 +1,6 @@
 const ObjectId = require('mongodb').ObjectId;
 
+const io = require('../../socket');
 const Comment = require("../../models/comment/comment.model");
 const Task = require("../../models/task/task.model");
 
@@ -20,7 +21,13 @@ async function postComment(req, res, next) {
 		await task.save();
 	
 		await comment.save();
-	
+
+		io.getIO().emit('comments', {
+			action: 'create',
+			comment: comment,
+			task: task,
+		});
+
 		res.redirect('/task/' + req.body.id);
 	} catch(e) {
 		console.log(e)

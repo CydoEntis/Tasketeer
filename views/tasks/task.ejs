@@ -63,7 +63,7 @@
                             <textarea class="input__comment" type="text" name="comment"></textarea>
                             <input type="hidden" value="<%= task._doc._id %>" name="id">
                             <input type="hidden" value="<%= csrfToken %>" name="_csrf">
-                            <button class="btn" type="submit">Post Comment</button>
+                            <button id="postComment" class="btn" type="submit">Post Comment</button>
                         </form>
                     </div>
                     <div class="comments">
@@ -99,4 +99,14 @@
             </div>
         </section>
     </main>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io();
+        const post = document.getElementById("postComment");
+        post.addEventListener("click", () => {
+            console.log("CLicked post");
+            socket.emit('comments', 1);
+        })
+    </script>
     <%- include("../includes/footer.ejs")%>
