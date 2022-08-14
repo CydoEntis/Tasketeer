@@ -271,6 +271,11 @@ async function postPutOnHoldTask(req, res, next) {
 
 	task.status = 'hold';
 
+	io.getIO().emit('tasks', {
+		action: 'status',
+		task: task,
+	});
+
 	await task.save();
 
 	res.redirect('/admin');
@@ -283,6 +288,11 @@ async function postTakeOffHoldTask(req, res, next) {
 	task.status = 'active';
 
 	await task.save();
+
+	io.getIO().emit('tasks', {
+		action: 'status',
+		task: task,
+	});
 
 	res.redirect('/admin');
 }

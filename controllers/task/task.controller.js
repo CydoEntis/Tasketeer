@@ -651,6 +651,11 @@ async function postAssignTask(req, res, next) {
 
 		await task.save();
 
+		io.getIO().emit('tasks', {
+			action: 'assign',
+			task: task,
+		});
+
 		res.redirect('/admin');
 	} catch (e) {
 		console.log(e);
@@ -714,6 +719,11 @@ async function postUserEditTask(req, res, next) {
 		task.description = updatedDescription;
 
 		await task.save();
+
+		io.getIO().emit('tasks', {
+			action: 'edit',
+			task: task,
+		});
 
 		res.redirect('/tasks');
 	} catch (e) {

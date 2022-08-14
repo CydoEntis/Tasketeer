@@ -43,9 +43,15 @@
             <script>
                 var socket = io();
                 const delBtn = document.querySelector("#delTask");
+                const editBtn = document.querySelector("#editTask");
         
                 delBtn.addEventListener("click", () => {
                     socket.emit('tasks');
                 });
+
+                editBtn.addEventListener("click", () => {
+                    socket.emit('tasks');
+                });
+
             </script>
             <%- include("../includes/footer.ejs")%>

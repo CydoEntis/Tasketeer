@@ -35,15 +35,15 @@
                         <% for(let task of tasks) {%>
                             <tr class="rid-<%= task._doc._id %>">
                                 <td><%= task.createdAt %></td>
-                                <td><%= task._doc.title %></td>
+                                <td class="rowTitle"><%= task._doc.title %></td>
                                 <td><%= task._doc.createdBy.username %></td>
                                 <% if(!task._doc.assignedTo.userId) { %>
-                                    <td><span class="badge badge--pending">Not Assigned</span></td>
+                                    <td class="rowAssignedTo"><span class="badge badge--pending">Not Assigned</span></td>
                                 <% } else { %>
-                                    <td><%= task._doc.assignedTo.username %></td>
+                                    <td class="rowAssignedTo"><%= task._doc.assignedTo.username %></td>
                                 <% } %>
         
-                                <td><span class="badge badge--<%= task._doc.status %>"><%= task._doc.status %></span></td>
+                                <td class="rowStatus"><span class="rowBadge badge badge--<%= task._doc.status %>"><%= task._doc.status %></span></td>
                                 <% if(task._doc.status !== 'pending') { %>
                                     <td><a class="btn--table" href="/admin/admin-edit/<%= task._doc._id %>">Edit</a></td>
                                 <% } else { %>
@@ -87,6 +87,7 @@
         const taskLinks = document.querySelectorAll(".card__link");
         var socket = io();
         socket.on('tasks', data => {
+            console.log(data);
             if(data.action === "create") {
                 const tableHeader = document.querySelector(".table--header");
                 const row = document.createElement("tr");
@@ -106,7 +107,6 @@
                 title.innerText = data.task.title;
                 username.innerText = data.task.createdBy.username;
 
-                assignedBadge.innerText = "pending"
                 assignedBadge.classList.add("badge");
                 let badgeClass = "badge--" + data.task.status; 
                 assignedBadge.classList.add(badgeClass);
@@ -117,7 +117,14 @@
                 statusBadge.classList.add(badgeClass);
                 status.append(statusBadge);
 
-                assignLink.innerText = "Assign";
+                if(!task.assignedTo) {
+                    assignedBadge.innerText = "pending"
+                    assignLink.innerText = "Assign";
+                } else {
+                    assignLink.innerText = "Edit";
+                    assignedBadge.innerText = task.assignedTo.username;
+                }
+
                 viewLink.innerText = "View";
 
                 assignLink.setAttribute("href", "/admin/admin-edit/" + data.task._id);
@@ -143,7 +150,25 @@
                 for(let task of tasks) {
                     task.remove();
                 }
-            }
+            } else if (data.action === "assign") {
+                const taskAssignedTo = document.querySelector(".rid-" + data.task._id + " .rowAssignedTo");
+
+                taskAssignedTo.innerText = data.task.assignedTo.username;
+            } else if (data.action === "edit") {
+                const taskTitle = document.querySelector(".rid-" + data.task._id + " .rowTitle" );
+
+                taskTitle.innerText = data.task.title;
+            } else if (data.action === "status") {
+                const taskStatus = document.querySelector(".rid-" + data.task._id + " .rowStatus" + " .rowBadge");
+
+                taskStatus.innerText = data.task.status;
+                taskStatus.classList.remove("badge--pending");
+                taskStatus.classList.remove("badge--hold");
+                taskStatus.classList.remove("badge--overdue");
+                taskStatus.classList.remove("badge--complete");
+                taskStatus.classList.remove("badge--reviewing");
+                taskStatus.classList.add("badge--" + data.task.status);
+            } 
         })
     </script>
 <%- include("../includes/footer.ejs")%>`

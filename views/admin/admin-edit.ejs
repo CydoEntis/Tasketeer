@@ -31,7 +31,7 @@
                     <input type="hidden" value="<%= csrfToken %>" name="_csrf">
                     <button class="btn" type="submit">Put On Hold</button>
                 </form>
-                <% } else { %>
+                <% } else if(task._doc.status === "hold") { %>
                   <form action="/take-off-hold" method="POST">
                     <input type="hidden" value="<%= task._doc._id %>" name="id">
                     <input type="hidden" value="<%= csrfToken %>" name="_csrf">
@@ -96,19 +96,28 @@
                       <input type="hidden" value="<%= csrfToken %>" name="_csrf">
                       <input type="hidden" value="<%= task._doc._id %>" name="id">
                     <% if(task._doc.status === "pending") { %> 
-                      <button class="btn" type="submit">Assign Task</button>
+                      <button id="editBtn" class="btn" type="submit">Assign Task</button>
                     <% } else { %>
-                      <button class="btn" type="submit">Edit Task</button>
+                      <button id="editBtn" class="btn" type="submit">Edit Task</button>
                     </div>
                     <% } %>
                 </form>
             </div>
         </section>
     </main>
+    <script src="/socket.io/socket.io.js"></script>
     <script>
       const dueDate = document.querySelector('#due');
       const date = new Date();
-      dueDate.value = date.getFullYear().toString() + '-' + (date.getMonth() + 1).toString().padStart(2, 0) + 
-    '-' + date.getDate().toString().padStart(2, 0);
+      dueDate.value = date.getFullYear().toString() + '-' + (date.getMonth() + 1).toString().padStart(2, 0) + '-' + date.getDate().toString().padStart(2, 0);
+
+
+      var socket = io();
+      const editBtn = document.querySelector("#editBtn");
+
+      editBtn.addEventListener("click", () => {
+          socket.emit('tasks');
+      });
+
     </script>
 <%- include("../includes/footer.ejs")%>
