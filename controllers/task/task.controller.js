@@ -735,8 +735,16 @@ async function postDeleteTask(req, res, next) {
 				console.log('File Deleted');
 			});
 		}
+
+		io.getIO().emit('tasks', {
+			action: 'delete',
+			task: task,
+		});
+
 		await Comment.deleteMany({ taskId: taskId });
 		await Task.deleteOne({ _id: taskId });
+
+
 
 		res.redirect('/tasks');
 	} catch (e) {

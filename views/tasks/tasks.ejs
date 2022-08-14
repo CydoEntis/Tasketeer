@@ -33,7 +33,7 @@
                     <div class="task__category--body">
                         <% if(tasks.allTasks.length > 0) {%>
                             <% for(let task of tasks.allTasks) { %>
-                                <a class="card__link" href="/task/<%= task._doc._id %>">
+                                <a class="card__link tid-<%= task._doc._id %>" href="/task/<%= task._doc._id %>">
                                     <div class="card">
                                         <div class="card__due-date status--<%= task._doc.status %>">
                                             <p class="time--<%= task._doc.status %>">Due</p>
@@ -79,7 +79,7 @@
                     <div class="task__category--body">
                         <% if(tasks.pendingTasks.length > 0) { %>
                             <% for(let task of tasks.pendingTasks) { %>
-                                <a class="card__link" href="/task/<%= task._doc._id %>">
+                                <a class="card__link tid-<%= task._doc._id %>" href="/task/<%= task._doc._id %>">
                                     <div class="card">
                                         <div class="card__due-date status--<%= task._doc.status %>">
                                             <p class="time--<%= task._doc.status %>">Due</p>
@@ -125,7 +125,7 @@
                     <div class="task__category--body">
                         <% if(tasks.activeTasks.length > 0) { %>
                             <% for(let task of tasks.activeTasks) { %>
-                                <a class="card__link" href="/task/<%= task._doc._id %>">
+                                <a class="card__link tid-<%= task._doc._id %>" href="/task/<%= task._doc._id %>">
                                     <div class="card">
                                         <div class="card__due-date status--<%= task._doc.status %>">
                                             <p class="time--<%= task._doc.status %>">Due</p>
@@ -171,7 +171,7 @@
                     <div class="task__category--body">
                         <% if(tasks.onHoldTasks.length > 0) { %>
                             <% for(let task of tasks.onHoldTasks) { %>
-                                <a class="card__link" href="/task/<%= task._doc._id %>">
+                                <a class="card__link tid-<%= task._doc._id %>" href="/task/<%= task._doc._id %>">
                                     <div class="card">
                                         <div class="card__due-date status--<%= task._doc.status %>">
                                             <p class="time--<%= task._doc.status %>">Due</p>
@@ -217,7 +217,7 @@
                     <div class="task__category--body">
                         <% if(tasks.inReviewTasks.length > 0) { %>
                             <% for(let task of tasks.inReviewTasks) { %>
-                                <a class="card__link" href="/task/<%= task._doc._id %>">
+                                <a class="card__link tid-<%= task._doc._id %>" href="/task/<%= task._doc._id %>">
                                     <div class="card">
                                         <div class="card__due-date status--<%= task._doc.status %>">
                                             <p class="time--<%= task._doc.status %>">Due</p>
@@ -263,7 +263,7 @@
                     <div class="task__category--body">
                         <% if(tasks.completedTasks.length > 0) { %>
                             <% for(let task of tasks.completedTasks) { %>
-                                <a class="card__link" href="/task/<%= task._doc._id %>">
+                                <a class="card__link tid-<%= task._doc._id %>" href="/task/<%= task._doc._id %>">
                                     <div class="card">
                                         <div class="card__due-date status--<%= task._doc.status %>">
                                             <p class="time--<%= task._doc.status %>">Due</p>
@@ -309,7 +309,7 @@
                     <div class="task__category--body">
                         <% if(tasks.overdueTasks.length > 0) { %>
                             <% for(let task of tasks.overdueTasks) { %>
-                                <a class="card__link" href="/task/<%= task._doc._id %>">
+                                <a class="card__link tid-<%= task._doc._id %>" href="/task/<%= task._doc._id %>">
                                     <div class="card">
                                         <div class="card__due-date status--<%= task._doc.status %>">
                                             <p class="time--<%= task._doc.status %>">Due</p>
@@ -383,6 +383,15 @@
                     }
                 }
             }
+        });
+
+        socket.on('tasks', data => {
+            if(data.action === 'delete') {
+                const tasks = document.querySelectorAll(".tid-" + data.task._id);
+                for(let task of tasks) {
+                    task.remove();
+                }
+            } 
         })
     </script>
     <%- include("../includes/footer.ejs")%>

@@ -32,11 +32,20 @@
                                 <form action="/task/delete-task" method="POST">
                                     <input type="hidden" value="<%= task._doc._id %>"name="id">
                                     <input type="hidden" value="<%= csrfToken %>"name="_csrf">
-                                    <button class="btn" type="submit">Delete</button>
+                                    <button id="delTask" class="btn" type="submit">Delete</button>
                                 </form>
                             <% } %>
                         </div>
                     </form>
                 </section>
             </main>
+            <script src="/socket.io/socket.io.js"></script>
+            <script>
+                var socket = io();
+                const delBtn = document.querySelector("#delTask");
+        
+                delBtn.addEventListener("click", () => {
+                    socket.emit('tasks');
+                });
+            </script>
             <%- include("../includes/footer.ejs")%>

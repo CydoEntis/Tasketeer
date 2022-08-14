@@ -33,7 +33,7 @@
                             <th></th>
                         </tr>
                         <% for(let task of tasks) {%>
-                            <tr>
+                            <tr class="rid-<%= task._doc._id %>">
                                 <td><%= task.createdAt %></td>
                                 <td><%= task._doc.title %></td>
                                 <td><%= task._doc.createdBy.username %></td>
@@ -108,12 +108,13 @@
 
                 assignedBadge.innerText = "pending"
                 assignedBadge.classList.add("badge");
-                assignedBadge.classList.add("badge--pending");
+                let badgeClass = "badge--" + data.task.status; 
+                assignedBadge.classList.add(badgeClass);
                 assignedTo.append(assignedBadge);
 
                 statusBadge.innerText = data.task.status;
                 statusBadge.classList.add("badge");
-                statusBadge.classList.add("badge--pending");
+                statusBadge.classList.add(badgeClass);
                 status.append(statusBadge);
 
                 assignLink.innerText = "Assign";
@@ -137,6 +138,11 @@
                 row.append(view);
 
                 tableHeader.after(row);
+            } else if (data.action === 'delete') {
+                const tasks = document.querySelectorAll(".rid-" + data.task._id);
+                for(let task of tasks) {
+                    task.remove();
+                }
             }
         })
     </script>
