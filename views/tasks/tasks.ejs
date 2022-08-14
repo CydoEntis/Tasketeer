@@ -26,57 +26,11 @@
         </div>
         <% if(tasks.allTasks.length > 0) { %>
             <div class="task__categories">
-                <div class="task__category category__body--all">
-                    <div class="task__category--header">
-                        <h2 class="task__category--title"><i class='icon--all bx bx-task' ></i> All</h2>
-                    </div>
-                    <div class="task__category--body">
-                        <% if(tasks.allTasks.length > 0) {%>
-                            <% for(let task of tasks.allTasks) { %>
-                                <a class="card__link tid-<%= task._doc._id %>" href="/task/<%= task._doc._id %>">
-                                    <div class="card">
-                                        <div class="card__due-date status--<%= task._doc.status %>">
-                                            <p class="time--<%= task._doc.status %>">Due</p>
-                                            <i class='icon--<%= task._doc.status %> bx bxs-calendar'></i>
-                                            <p class="time--<%= task._doc.status %>"><%= task.dueDate %></p>
-                                        </div>
-                                        <div class="card__details">
-                                            <div class="card__header">
-                                                <div class="task__header--section">
-                                                    <h3 class="card__title"><%= task._doc.title %></h3>
-                                                    <div class="task__header--section">
-                                                        <span class="badge badge--<%= task._doc.priority %>"><%= task._doc.priority %></span>
-                                                    </div>
-                                                </div>
-                                                <!-- <div class="card__options"><i class='bx bx-dots-horizontal-rounded' ></i></div> -->
-                                            </div>
-                                            <div class="card__body">
-                                                <div class="card__grouping">
-                                                    <div class="card__comments">
-                                                        <p class="id-<%= task._doc._id %> task__comment--count"><%= task._doc.commentCount %></p>
-                                                        <i class='task__comment--icon bx bx-comment'></i>
-                                                    </div>
-                                                    <p class="card__date">Created: <%= task.createdAtDate %></p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            <% } %>
-                            <a href="/tasks/all" class="tasks__view tasks__view--all">View All</a>
-                        <% } else { %>
-                            <div class="tasks__not-found--small">
-                                <i class='icon__error--small bx bx-error-circle'></i>
-                                <h3 class="not-found__message--small">You don't have any tasks yet!</h3>
-                            </div>
-                        <% } %>
-                    </div>
-                </div>
                 <div class="task__category category__body--pending">
                     <div class="task__category--header">
                         <h2 class="task__category--title"><i class='icon--pending bx bx-loader-circle' ></i> Pending</h2>
                     </div>
-                    <div class="task__category--body">
+                    <div class="task__category--body" id="pending">
                         <% if(tasks.pendingTasks.length > 0) { %>
                             <% for(let task of tasks.pendingTasks) { %>
                                 <a class="card__link tid-<%= task._doc._id %>" href="/task/<%= task._doc._id %>">
@@ -84,7 +38,7 @@
                                         <div class="card__due-date status--<%= task._doc.status %>">
                                             <p class="time--<%= task._doc.status %>">Due</p>
                                             <i class='icon--<%= task._doc.status %> bx bxs-calendar'></i>
-                                            <p class="time--<%= task._doc.status %>"><%= task.dueDate %></p>
+                                            <p class="time--<%= task._doc.status %>">Not Set</p>
                                         </div>
                                         <div class="card__details">
                                             <div class="card__header">
@@ -122,7 +76,7 @@
                     <div class="task__category--header">
                         <h2 class="task__category--title"><i class='icon--active bx bx-hard-hat' ></i> Active</h2>
                     </div>
-                    <div class="task__category--body">
+                    <div class="task__category--body" id="active">
                         <% if(tasks.activeTasks.length > 0) { %>
                             <% for(let task of tasks.activeTasks) { %>
                                 <a class="card__link tid-<%= task._doc._id %>" href="/task/<%= task._doc._id %>">
@@ -168,7 +122,7 @@
                     <div class="task__category--header">
                         <h2 class="task__category--title"><i class='icon--hold bx bx-lock-alt'></i> On Hold</h2>
                     </div>
-                    <div class="task__category--body">
+                    <div class="task__category--body" id="hold">
                         <% if(tasks.onHoldTasks.length > 0) { %>
                             <% for(let task of tasks.onHoldTasks) { %>
                                 <a class="card__link tid-<%= task._doc._id %>" href="/task/<%= task._doc._id %>">
@@ -214,7 +168,7 @@
                     <div class="task__category--header">
                         <h2 class="task__category--title"><i class='icon--reviewing bx bx-glasses' ></i> In Review</h2>
                     </div>
-                    <div class="task__category--body">
+                    <div class="task__category--body" id="review">
                         <% if(tasks.inReviewTasks.length > 0) { %>
                             <% for(let task of tasks.inReviewTasks) { %>
                                 <a class="card__link tid-<%= task._doc._id %>" href="/task/<%= task._doc._id %>">
@@ -260,7 +214,7 @@
                     <div class="task__category--header">
                         <h2 class="task__category--title"><i class='icon--completed bx bx-check' ></i> Completed</h2>
                     </div>
-                    <div class="task__category--body">
+                    <div class="task__category--body" id="completed">
                         <% if(tasks.completedTasks.length > 0) { %>
                             <% for(let task of tasks.completedTasks) { %>
                                 <a class="card__link tid-<%= task._doc._id %>" href="/task/<%= task._doc._id %>">
@@ -306,7 +260,7 @@
                     <div class="task__category--header">
                         <h2 class="task__category--title"><i class='icon--overdue bx bx-calendar' ></i> Overdue</h2>
                     </div>
-                    <div class="task__category--body">
+                    <div class="task__category--body" id="overdue">
                         <% if(tasks.overdueTasks.length > 0) { %>
                             <% for(let task of tasks.overdueTasks) { %>
                                 <a class="card__link tid-<%= task._doc._id %>" href="/task/<%= task._doc._id %>">
@@ -358,6 +312,29 @@
     </main>
     <script src="/socket.io/socket.io.js"></script>
     <script>
+        function formatDate(date) {
+            const months = [
+                'January',
+                'February',
+                'March',
+                'April',
+                'May',
+                'June',
+                'July',
+                'August',
+                'September',
+                'October',
+                'November',
+                'December',
+            ];
+
+            const currDate = new Date(date);
+            let month = months[currDate.getMonth()];
+            let year = currDate.getFullYear();
+            let day = currDate.getDate();
+            return `${month} ${day}, ${year}`;
+        }
+
         const taskLinks = document.querySelectorAll(".card__link");
         var socket = io();
         socket.on('comments', data => {
@@ -391,7 +368,146 @@
                 for(let task of tasks) {
                     task.remove();
                 }
-            } 
+            } else if (data.action === "status" || data.action === "create" || data.action === "assign") {
+                // TODO: Remove tasks that are visible before updating them.
+                const tasks = document.querySelectorAll(".tid-" + data.task._id);
+                for(let task of tasks) {
+                    task.remove();
+                }
+
+                const all = document.querySelector("#all");
+                const pending = document.querySelector("#pending");
+                const active = document.querySelector("#active");
+                const hold = document.querySelector("#hold");
+                const review = document.querySelector("#review");
+                const complete = document.querySelector("#complete");
+                const overdue = document.querySelector("#overdue");
+
+                const cardLink = document.createElement("a");
+
+                cardLink.setAttribute("href", "/task/" + data.task._id);
+                cardLink.classList.add("card__link");
+                cardLink.classList.add("tid-" + data.task._id);
+
+                const card = document.createElement("div");
+                card.classList.add("card");
+
+                cardLink.append(card);
+
+                const dueStatus = document.createElement("div");
+                dueStatus.classList.add("card__due-date");
+                dueStatus.classList.add("status--" + data.task.status);
+                
+                card.append(dueStatus);
+
+                const duePara = document.createElement("p");
+                duePara.classList.add("time--" + data.task.status);
+                duePara.innerText = "Due";
+
+                const calendar = document.createElement("i");
+                calendar.classList.add("icon--" + data.task.status);
+                calendar.classList.add("bx");
+                calendar.classList.add("bxs-calendar");
+
+                const dueDate = document.createElement("p");
+                dueDate.classList.add("time--" + data.task.status);
+
+                if(data.task.status === "pending") {
+                    dueDate.innerText = "Not Set";
+                } else {
+                    dueDate.innerText = formatDate(data.task.dueDate);
+                }
+
+                dueStatus.append(duePara);
+                dueStatus.append(calendar);
+                dueStatus.append(dueDate);
+
+                const details = document.createElement("div");
+                details.classList.add("card__details");
+                card.append(details);
+                
+                const header = document.createElement("div");
+                header.classList.add("card__header");
+
+                details.append(header);
+
+                const headerSection = document.createElement("div");
+                headerSection.classList.add("task__header--section");
+                
+                header.append(headerSection);
+
+                const title = document.createElement("h3");
+                title.classList.add("card__title");
+                title.innerText = data.task.title;
+
+                headerSection.append(title);
+
+                const headerSection2 = document.createElement("div");
+                headerSection2.classList.add("task__header--section");
+
+                headerSection.append(headerSection2);
+
+
+                if(data.task.priority) {
+                    const badge = document.createElement("span");
+                    badge.classList.add("badge");
+                    badge.classList.add("badge--" + data.task.priority);
+                    badge.innerText = data.task.priority;
+
+                    headerSection2.append(badge);
+                }
+
+                const cardBody = document.createElement("div");
+                cardBody.classList.add("card__body");
+                details.append(cardBody);
+
+                const grouping = document.createElement("div");
+                grouping.classList.add("card__grouping");
+                cardBody.append(grouping);
+
+                const comments = document.createElement("div");
+                comments.classList.add("card__comments");
+                grouping.append(comments);
+
+                const commentCount = document.createElement("p");
+                commentCount.classList.add("id-" + data.task._id);
+                commentCount.classList.add("task__comment--count");
+                commentCount.innerText = data.task.commentCount;
+
+                comments.append(commentCount);
+                
+                const icon = document.createElement("i");
+                icon.classList.add("task__comment--icon");
+                icon.classList.add("bx");
+                icon.classList.add("bx-comment");
+
+                comments.append(icon);
+                console.log(data.task);
+                const createdDate = document.createElement("p");
+                createdDate.classList.add("card__date");
+                createdDate.innerText = "Created: " + formatDate(data.task.createdAt);
+                grouping.append(createdDate);
+
+                if(data.task.status === "pending") {
+                    pending.prepend(cardLink);
+                }
+
+                if (data.task.status === "active") {
+                    active.prepend(cardLink);
+                } 
+                
+                if (data.task.status === "hold") {
+                    hold.prepend(cardLink);
+                } 
+                
+                if (data.task.status === "reviewing") {
+                    review.prepend(cardLink);
+                } 
+                
+                if (data.task.status === "completed") { 
+                    complete.prepend(cardLink);
+                }
+            }
         })
     </script>
     <%- include("../includes/footer.ejs")%>

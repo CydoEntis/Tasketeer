@@ -117,7 +117,7 @@
                 statusBadge.classList.add(badgeClass);
                 status.append(statusBadge);
 
-                if(!task.assignedTo) {
+                if(!data.task.assignedTo) {
                     assignedBadge.innerText = "pending"
                     assignLink.innerText = "Assign";
                 } else {

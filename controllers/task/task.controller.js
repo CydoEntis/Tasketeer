@@ -64,13 +64,6 @@ async function getIndex(req, res, next) {
 		// console.log(req.user._id.toString() === task.assignedTo.userId.toString());
 		if (task.assignedTo.userId !== undefined) {
 			if (
-				task.status === 'pending' &&
-				task.createdBy.userId.toString() === req.user._id.toString() &&
-				pendingCount < 4
-			) {
-				pendingTasks.push(formattedTask);
-				pendingCount++;
-			} else if (
 				task.status === 'active' &&
 				task.assignedTo.userId.toString() === req.user._id.toString() &&
 				activeCount < 4
@@ -114,9 +107,19 @@ async function getIndex(req, res, next) {
 				formattedTasks.push(formattedTask);
 				count++;
 			}
+		} else if(task.assignedTo.userId === undefined) {
+			if (
+				task.status === 'pending' &&
+				task.createdBy.userId.toString() === req.user._id.toString() &&
+				pendingCount < 4
+			) {
+				pendingTasks.push(formattedTask);
+				pendingCount++;
+			}
 		}
 	}
 
+	console.log(pendingTasks);
 	res.render('tasks/tasks', {
 		tasks: {
 			allTasks: formattedTasks,
@@ -596,7 +599,7 @@ async function postCreateTask(req, res, next) {
 			activePage: '/tasks',
 			pageTitle: 'Create Task',
 			title: title,
-			severity: undefined,
+			priority: undefined,
 			description: description,
 			createdBy: {
 				username: req.user.username,
@@ -610,7 +613,7 @@ async function postCreateTask(req, res, next) {
 
 	const task = new Task({
 		title: title,
-		severity: undefined,
+		priority: undefined,
 		description: description,
 		createdBy: {
 			username: req.user.username,
@@ -768,6 +771,11 @@ async function postCompleteTask(req, res, next) {
 
 	task.status = 'completed';
 
+	io.getIO().emit('tasks', {
+		action: 'status',
+		task: task,
+	});
+
 	await task.save();
 
 	res.redirect('/admin');
@@ -780,6 +788,11 @@ async function postTaskForReview(req, res, next) {
 	task.status = 'reviewing';
 
 	await task.save();
+
+	io.getIO().emit('tasks', {
+		action: 'status',
+		task: task,
+	});
 
 	res.redirect('/tasks');
 }
