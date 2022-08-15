@@ -22,7 +22,7 @@ async function getIndex(req, res, next) {
 		const completedTasks = [];
 		const overdueTasks = [];
 	
-		const todaysDate = new Date().getTime();
+		const todaysDate = new Date()
 	
 		const tasks = await Task.find({
 			$or: [

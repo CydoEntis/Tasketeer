@@ -38,4 +38,18 @@
             </form>
         </section>
     </main>
+    <script>
+        const imageUpload = document.querySelector("#images");
+        imageUpload.addEventListener("change", () => {
+            const files = imageUpload.files;
+
+            if(files.length > 3) {
+                alert("Only 3 files may be uploaded");
+                imageUpload.value = null;
+                return;
+            }
+        })
+
+        
+    </script>
 <%- include("../includes/footer.ejs")%>

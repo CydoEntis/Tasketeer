@@ -240,10 +240,16 @@
 @media only screen and (max-width: 768px) {
 	#createTaskBtnMobile {
 		display: block;
+		border-radius: 50%;
+		font-size: 1.75rem;
 		position: fixed;
 		bottom: 1rem;
 		right: 1rem;
 		z-index: 101;
+		padding: 1rem;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 
 	#createTaskBtn {

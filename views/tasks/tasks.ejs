@@ -334,8 +334,9 @@
             const currDate = new Date(date);
             let month = months[currDate.getMonth()];
             let year = currDate.getFullYear();
+
             let day = currDate.getDate();
-            return `${month} ${day}, ${year}`;
+            return `${month} ${day + 1}, ${year}`;
         }
 
         function createTask(data) {
@@ -454,37 +455,49 @@
                 if(data.task.status === "pending") {
                     pending.prepend(cardLink);
                     const notFound = document.querySelector("#pending .tasks__not-found--small");
-                    notFound.remove();
+                    if(notFound) {
+                        notFound.remove();
+                    }
                 }
 
                 if (data.task.status === "active") {
                     active.prepend(cardLink);
                     const notFound = document.querySelector("#active .tasks__not-found--small");
-                    notFound.remove();
+                    if(notFound) {
+                        notFound.remove();
+                    }
                 } 
                 
                 if (data.task.status === "hold") {
                     hold.prepend(cardLink);
                     const notFound = document.querySelector("#hold .tasks__not-found--small");
-                    notFound.remove();
+                    if(notFound) {
+                        notFound.remove();
+                    }
                 } 
                 
                 if (data.task.status === "reviewing") {
                     review.prepend(cardLink);
                     const notFound = document.querySelector("#review .tasks__not-found--small");
-                    notFound.remove();
+                    if(notFound) {
+                        notFound.remove();
+                    }
                 } 
                 
                 if (data.task.status === "completed") { 
                     complete.prepend(cardLink);
                     const notFound = document.querySelector("#completed .tasks__not-found--small");
-                    notFound.remove();
+                    if(notFound) {
+                        notFound.remove();
+                    }
                 }
 
                 if (data.task.status === "overdue") { 
                     overdue.prepend(cardLink);
                     const notFound = document.querySelector("#overdue .tasks__not-found--small");
-                    notFound.remove();
+                    if(notFound) {
+                        notFound.remove();
+                    }
                 }
         }
 
