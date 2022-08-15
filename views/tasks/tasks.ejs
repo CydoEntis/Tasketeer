@@ -312,6 +312,8 @@
     </main>
     <script src="/socket.io/socket.io.js"></script>
     <script>
+        const userId = "<%= userId %>"
+        
         function formatDate(date) {
             const months = [
                 'January',
@@ -335,46 +337,7 @@
             return `${month} ${day}, ${year}`;
         }
 
-        const taskLinks = document.querySelectorAll(".card__link");
-        var socket = io();
-        socket.on('comments', data => {
-            if(data.action === 'create') {
-                for(let task of taskLinks) {
-                    let href = task.getAttribute("href").split("/task/")[1];
-                    if(data.comment.taskId === href) {
-                        
-                        const taskComments = document.querySelectorAll(`.id-${href}`);
-                        for(let taskComment of taskComments) {
-                            taskComment.innerText = data.task.commentCount;
-                        }
-                    }
-                }
-            } else if (data.action === 'delete') {
-                for(let task of taskLinks) {
-                    let href = task.getAttribute("href").split("/task/")[1];
-                    if(data.task._id === href) {
-                        const taskComments = document.querySelectorAll(`.id-${href}`);
-                        for(let taskComment of taskComments) {
-                            taskComment.innerText = data.task.commentCount;
-                        }
-                    }
-                }
-            }
-        });
-
-        socket.on('tasks', data => {
-            if(data.action === 'delete') {
-                const tasks = document.querySelectorAll(".tid-" + data.task._id);
-                for(let task of tasks) {
-                    task.remove();
-                }
-            } else if (data.action === "status" || data.action === "create" || data.action === "assign") {
-                // TODO: Remove tasks that are visible before updating them.
-                const tasks = document.querySelectorAll(".tid-" + data.task._id);
-                for(let task of tasks) {
-                    task.remove();
-                }
-
+        function createTask(data) {
                 const all = document.querySelector("#all");
                 const pending = document.querySelector("#pending");
                 const active = document.querySelector("#active");
@@ -482,7 +445,6 @@
                 icon.classList.add("bx-comment");
 
                 comments.append(icon);
-                console.log(data.task);
                 const createdDate = document.createElement("p");
                 createdDate.classList.add("card__date");
                 createdDate.innerText = "Created: " + formatDate(data.task.createdAt);
@@ -490,24 +452,88 @@
 
                 if(data.task.status === "pending") {
                     pending.prepend(cardLink);
+                    const notFound = document.querySelector("#pending .tasks__not-found--small");
+                    notFound.remove();
                 }
 
                 if (data.task.status === "active") {
                     active.prepend(cardLink);
+                    const notFound = document.querySelector("#active .tasks__not-found--small");
+                    notFound.remove();
                 } 
                 
                 if (data.task.status === "hold") {
                     hold.prepend(cardLink);
+                    const notFound = document.querySelector("#hold .tasks__not-found--small");
+                    notFound.remove();
                 } 
                 
                 if (data.task.status === "reviewing") {
                     review.prepend(cardLink);
+                    const notFound = document.querySelector("#review .tasks__not-found--small");
+                    notFound.remove();
                 } 
                 
                 if (data.task.status === "completed") { 
                     complete.prepend(cardLink);
+                    const notFound = document.querySelector("#completed .tasks__not-found--small");
+                    notFound.remove();
+                }
+
+                if (data.task.status === "overdue") { 
+                    overdue.prepend(cardLink);
+                    const notFound = document.querySelector("#overdue .tasks__not-found--small");
+                    notFound.remove();
+                }
+        }
+
+        const taskLinks = document.querySelectorAll(".card__link");
+        var socket = io();
+        socket.on('comments', data => {
+            if(data.action === 'create') {
+                for(let task of taskLinks) {
+                    let href = task.getAttribute("href").split("/task/")[1];
+                    if(data.comment.taskId === href) {
+                        
+                        const taskComments = document.querySelectorAll(`.id-${href}`);
+                        for(let taskComment of taskComments) {
+                            taskComment.innerText = data.task.commentCount;
+                        }
+                    }
+                }
+            } else if (data.action === 'delete') {
+                for(let task of taskLinks) {
+                    let href = task.getAttribute("href").split("/task/")[1];
+                    if(data.task._id === href) {
+                        const taskComments = document.querySelectorAll(`.id-${href}`);
+                        for(let taskComment of taskComments) {
+                            taskComment.innerText = data.task.commentCount;
+                        }
+                    }
                 }
             }
+        });
+
+        socket.on('tasks', data => {
+            console.log(data);
+            if(data.action === 'delete') {
+                const tasks = document.querySelectorAll(".tid-" + data.task._id);
+                for(let task of tasks) {
+                    task.remove();
+                }
+            } else if (data.action === "status" || data.action === "create") {
+                // TODO: Remove tasks that are visible before updating them.
+                createTask(data);
+                
+            } else if (data.action === "assign") {
+                const tasks = document.querySelectorAll(".tid-" + data.task._id);
+                for(let task of tasks) {
+                    task.remove();
+                }
+                if(userId === data.task.assignedTo.userId) {
+                    createTask(data);
+                }
+            } 
         })
     </script>
     <%- include("../includes/footer.ejs")%>

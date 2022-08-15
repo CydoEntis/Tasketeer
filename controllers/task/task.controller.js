@@ -118,8 +118,8 @@ async function getIndex(req, res, next) {
 			}
 		}
 	}
+	
 
-	console.log(pendingTasks);
 	res.render('tasks/tasks', {
 		tasks: {
 			allTasks: formattedTasks,
