@@ -18,6 +18,7 @@ const homeRoutes = require('./routes/home.routes');
 const adminRoutes = require('./routes/admin.routes');
 const commentRoutes = require('./routes/comment.routes');
 const projectRoutes = require('./routes/project.routes');
+const errorController = require('./controllers/error/error.controller');
 
 const MONGODB_URI = process.env.APP_URI;
 	
@@ -111,6 +112,19 @@ app.use(taskRoutes);
 app.use(commentRoutes);
 app.use(projectRoutes);
 app.use(adminRoutes);
+
+app.use("/500", errorController.get500);
+app.use(errorController.get404);
+
+app.use((error, req, res, next) => {
+	console.log(error);
+	res.status(500).render('500', {
+		pageTitle: 'Error!',
+		path: '/500',
+		isAuthenticated: req.session.isLoggedIn,
+		csrfToken: ''
+	});
+});
 
 mongoose
 	.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
