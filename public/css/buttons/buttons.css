@@ -27,6 +27,7 @@
 }
 
 .btn-mobile {
+	z-index: 105;
 	background-color: var(--accent);
 	color: #fff;
 	border-radius: 50%;
