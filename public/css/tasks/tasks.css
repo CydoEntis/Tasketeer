@@ -233,7 +233,23 @@
 	margin-left: .25rem;
 }
 
+#createTaskBtnMobile {
+	display: none;
+}
+
 @media only screen and (max-width: 768px) {
+	#createTaskBtnMobile {
+		display: block;
+		position: fixed;
+		bottom: 1rem;
+		right: 1rem;
+		z-index: 101;
+	}
+
+	#createTaskBtn {
+		display: none;
+	}
+
 	.task__images {
 		flex-direction: column;
 	}

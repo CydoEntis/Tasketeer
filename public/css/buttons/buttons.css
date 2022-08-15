@@ -28,6 +28,7 @@
 
 .btn-mobile {
 	background-color: var(--accent);
+	color: #fff;
 	border-radius: 50%;
 	display: flex;
 	justify-content: center;

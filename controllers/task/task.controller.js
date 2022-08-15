@@ -135,8 +135,10 @@ async function getIndex(req, res, next) {
 			userId: req.user._id,
 			activePage: '/tasks',
 		});
-	} catch (error) {
-
+	} catch (err) {
+		const error = new Error(err);
+		error.httpStatusCode = 500;
+		return next(error);
 	}
 }
 
@@ -188,7 +190,9 @@ async function getTasks(req, res, next) {
 			lastPage: Math.ceil(numTasks / TASKS_PER_PAGE),
 		});
 	} catch (err) {
-		next(err);
+		const error = new Error(err);
+		error.httpStatusCode = 500;
+		return next(error);
 	}
 }
 
@@ -240,7 +244,9 @@ async function getPendingTasks(req, res, next) {
 			lastPage: Math.ceil(numTasks / TASKS_PER_PAGE),
 		});
 	} catch (err) {
-		next(err);
+		const error = new Error(err);
+		error.httpStatusCode = 500;
+		return next(error);
 	}
 }
 
@@ -292,7 +298,9 @@ async function getActiveTasks(req, res, next) {
 			lastPage: Math.ceil(numTasks / TASKS_PER_PAGE),
 		});
 	} catch (err) {
-		next(err);
+		const error = new Error(err);
+		error.httpStatusCode = 500;
+		return next(error);
 	}
 }
 
@@ -355,7 +363,9 @@ async function getOnHoldTasks(req, res, next) {
 			lastPage: Math.ceil(numTasks / TASKS_PER_PAGE),
 		});
 	} catch (err) {
-		next(err);
+		const error = new Error(err);
+		error.httpStatusCode = 500;
+		return next(error);
 	}
 }
 
@@ -418,7 +428,9 @@ async function getInReviewTasks(req, res, next) {
 			lastPage: Math.ceil(numTasks / TASKS_PER_PAGE),
 		});
 	} catch (err) {
-		next(err);
+		const error = new Error(err);
+		error.httpStatusCode = 500;
+		return next(error);
 	}
 }
 
@@ -470,7 +482,9 @@ async function getCompletedTasks(req, res, next) {
 			lastPage: Math.ceil(numTasks / TASKS_PER_PAGE),
 		});
 	} catch (err) {
-		next(err);
+		const error = new Error(err);
+		error.httpStatusCode = 500;
+		return next(error);
 	}
 }
 
@@ -522,7 +536,9 @@ async function getOverdueTasks(req, res, next) {
 			lastPage: Math.ceil(numTasks / TASKS_PER_PAGE),
 		});
 	} catch (err) {
-		next(err);
+		const error = new Error(err);
+		error.httpStatusCode = 500;
+		return next(error);
 	}
 }
 
@@ -592,8 +608,10 @@ async function postCreateTask(req, res, next) {
 			imageIds.push(newImage);
 			await newImage.save();
 		}
-	} catch (e) {
-		console.log(e);
+	} catch (err) {
+		const error = new Error(err);
+		error.httpStatusCode = 500;
+		return next(error);
 	}
 
 	const errors = validationResult(req);
@@ -664,8 +682,10 @@ async function postAssignTask(req, res, next) {
 		});
 
 		res.redirect('/admin');
-	} catch (e) {
-		console.log(e);
+	} catch (err) {
+		const error = new Error(err);
+		error.httpStatusCode = 500;
+		return next(error);
 	}
 }
 
@@ -689,8 +709,10 @@ async function getUserEditTask(req, res, next) {
 			validationErrors: [],
 			activePage: '/tasks',
 		});
-	} catch (e) {
-		console.log(e);
+	} catch (err) {
+		const error = new Error(err);
+		error.httpStatusCode = 500;
+		return next(error);
 	}
 }
 
@@ -733,8 +755,10 @@ async function postUserEditTask(req, res, next) {
 		});
 
 		res.redirect('/tasks');
-	} catch (e) {
-		console.log(e);
+	} catch (err) {
+		const error = new Error(err);
+		error.httpStatusCode = 500;
+		return next(error);
 	}
 }
 
@@ -764,8 +788,10 @@ async function postDeleteTask(req, res, next) {
 
 
 		res.redirect('/tasks');
-	} catch (e) {
-		console.log(e);
+	} catch (err) {
+		const error = new Error(err);
+		error.httpStatusCode = 500;
+		return next(error);
 	}
 }
 
@@ -801,7 +827,6 @@ async function postTaskForReview(req, res, next) {
 	res.redirect('/tasks');
 }
 
-//TODO: Add ability to delete images
 async function postDeleteImage(req, res, next) {
 	const imageId = req.body.imageId;
 	const taskId = req.body.id;
@@ -812,14 +837,12 @@ async function postDeleteImage(req, res, next) {
 		return id.toString() !== imageId;
 	});
 
-	console.log(updatedImages);
-
 	task.imageIds = updatedImages;
 
 	await task.save();
 
 	const image = await Image.findById(imageId);
-	console.log(image);
+
 
 	fs.unlink(image.path, (err) => {
 		if (err) throw err;
@@ -830,7 +853,11 @@ async function postDeleteImage(req, res, next) {
 		.then(() => {
 			res.redirect('/task/' + taskId);
 		})
-		.catch((err) => console.error(err));
+		.catch((err) => {
+			const error = new Error(err);
+			error.httpStatusCode = 500;
+			return next(error);
+		});
 }
 
 async function getHighTasks(req, res, next) {
@@ -855,7 +882,6 @@ async function getHighTasks(req, res, next) {
 			.skip((page - 1) * TASKS_PER_PAGE)
 			.limit(TASKS_PER_PAGE);
 
-		console.log(tasks);
 
 		for (let task of tasks) {
 			const formattedDate = formatDate(task.createdAt);
@@ -885,7 +911,9 @@ async function getHighTasks(req, res, next) {
 			lastPage: Math.ceil(numTasks / TASKS_PER_PAGE),
 		});
 	} catch (err) {
-		next(err);
+		const error = new Error(err);
+		error.httpStatusCode = 500;
+		return next(error);
 	}
 }
 
@@ -939,7 +967,9 @@ async function getMediumTasks(req, res, next) {
 			lastPage: Math.ceil(numTasks / TASKS_PER_PAGE),
 		});
 	} catch (err) {
-		next(err);
+		const error = new Error(err);
+		error.httpStatusCode = 500;
+		return next(error);
 	}
 }
 
@@ -993,7 +1023,9 @@ async function getLowTasks(req, res, next) {
 			lastPage: Math.ceil(numTasks / TASKS_PER_PAGE),
 		});
 	} catch (err) {
-		next(err);
+		const error = new Error(err);
+		error.httpStatusCode = 500;
+		return next(error);
 	}
 }
 

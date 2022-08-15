@@ -260,8 +260,10 @@ async function getAdminEditTask(req, res, next) {
 			validationErrors: [],
 			activePage: '/admin',
 		});
-	} catch (e) {
-		console.log(e);
+	} catch (err) {
+		const error = new Error(err);
+		error.httpStatusCode = 500;
+		return next(error);
 	}
 }
 
@@ -306,8 +308,10 @@ async function getUserRoles(req, res, next) {
 			title: 'Roles',
 			activePage: '/roles',
 		});
-	} catch (e) {
-		console.log(e);
+	} catch (err) {
+		const error = new Error(err);
+		error.httpStatusCode = 500;
+		return next(error);
 	}
 }
 
@@ -329,8 +333,10 @@ async function postUserRoles(req, res, next) {
 			title: 'Roles',
 			activePage: '/roles',
 		});
-	} catch (e) {
-		console.log(e);
+	} catch (err) {
+		const error = new Error(err);
+		error.httpStatusCode = 500;
+		return next(error);
 	}
 }
 
