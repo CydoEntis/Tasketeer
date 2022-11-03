@@ -17,7 +17,9 @@
                 <div class="task__header">
                     <h2 class="task__title"><%= task._doc.title %></h2>
                     <div class="status--<%= task._doc.status %>">
-                        <p class="time--<%= task._doc.status %>">Due <i class='icon--<%= task._doc.status %> bx bxs-calendar'></i> <%= task.dueDate %></p>
+                        <% if(task.dueDate !== "undefined NaN, NaN") {%>
+                            <p class="time--<%= task._doc.status %>">Due <i class='icon--<%= task._doc.status %> bx bxs-calendar'></i> <%= task.dueDate %></p>
+                        <% } %>
                     </div>
                 </div>
                 <div class="task__priority">
